@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Container from './Container';
 
@@ -29,13 +30,17 @@ const Icon = styled.div`
   margin-right: 4px;
 `;
 
-const LinkStyled = styled.div`
+interface NavItemProps {
+  display: string; // Обозначаем пропс как необязательный строковый тип
+}
+
+const NavItem = styled.div<NavItemProps>`
   display: flex;
   align-items: center;
-  font-weight: 400;
-  font-size: 16px;
-  color: #fff;
   margin-left: 29px;
+  &:nth-child(1) {
+    display: ${({ display }) => display || 'none'};
+  }
 `;
 
 const Links = styled.div`
@@ -44,7 +49,23 @@ const Links = styled.div`
   justify-content: flex-end;
 `;
 
-const Header = () => {
+const LinkStyled = styled(Link)`
+  font-weight: 400;
+  font-size: 16px;
+  color: #fff;
+  text-decoration: none;
+  transition: 0.5s all;
+  &:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
+`;
+
+interface HeaderProps {
+  navItemHomeDisplay: string;
+}
+
+const Header: React.FC<HeaderProps> = ({ navItemHomeDisplay }) => {
   return (
     <HeaderStyled>
       <Container>
@@ -111,7 +132,7 @@ const Header = () => {
           </Logo>
 
           <Links>
-            <LinkStyled>
+            <NavItem display={navItemHomeDisplay}>
               <Icon>
                 <svg
                   width="24"
@@ -136,10 +157,10 @@ const Header = () => {
                   />
                 </svg>
               </Icon>
-              Home
-            </LinkStyled>
+              <LinkStyled to="/">Home</LinkStyled>
+            </NavItem>
 
-            <LinkStyled>
+            <NavItem display={navItemHomeDisplay}>
               <Icon>
                 <svg
                   width="24"
@@ -157,8 +178,8 @@ const Header = () => {
                   />
                 </svg>
               </Icon>
-              Your favorites
-            </LinkStyled>
+              <LinkStyled to="/favorites">Your favorites</LinkStyled>
+            </NavItem>
           </Links>
         </Nav>
       </Container>
