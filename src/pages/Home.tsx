@@ -1,10 +1,11 @@
 import Header from '../components/Header';
+import Title from '../components/Title';
 
 const Home = () => {
   return (
     <div>
       <Header></Header>
-      Home
+      <Title></Title>
     </div>
   );
 };
