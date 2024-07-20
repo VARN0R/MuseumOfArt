@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Container from './Container';
 
@@ -31,7 +31,7 @@ const Icon = styled.div`
 `;
 
 interface NavItemProps {
-  display: string; // Обозначаем пропс как необязательный строковый тип
+  display: string;
 }
 
 const NavItem = styled.div<NavItemProps>`
@@ -61,11 +61,14 @@ const LinkStyled = styled(Link)`
   }
 `;
 
-interface HeaderProps {
-  navItemHomeDisplay: string;
-}
+const Header = () => {
+  const location = useLocation();
 
-const Header: React.FC<HeaderProps> = ({ navItemHomeDisplay }) => {
+  let navItemHomeDisplay = 'none';
+  if (location.pathname.includes('/favorites')) {
+    navItemHomeDisplay = 'flex';
+  }
+
   return (
     <HeaderStyled>
       <Container>
