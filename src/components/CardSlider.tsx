@@ -6,7 +6,6 @@ const CardSliderStyled = styled.div`
   overflow: hidden;
   width: 387px;
   height: 514px;
-  margin: 16px;
   position: relative;
 `;
 
