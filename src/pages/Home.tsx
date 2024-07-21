@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import Title from '../components/Title';
 import axios from 'axios';
+import Subtitle from '../components/Subtitle';
 
 const Home = () => {
   const [artworks, setArtworks] = useState([]);
@@ -16,11 +17,17 @@ const Home = () => {
     setArtworks(response.data.data);
   };
 
+  const subtitleProps = {
+    topText: 'Topics for you',
+    underText: 'Our special gallery',
+  };
+
   return (
     <div>
       <Header></Header>
       <Title></Title>
       <SearchBar onSubmit={handleSearch}></SearchBar>
+      <Subtitle {...subtitleProps}></Subtitle>
     </div>
   );
 };
