@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import Title from '../components/Title';
 import axios from 'axios';
+import Slider from '../components/Slider';
 
 const Home = () => {
   const [artworks, setArtworks] = useState([]);
@@ -21,6 +22,7 @@ const Home = () => {
       <Header></Header>
       <Title></Title>
       <SearchBar onSubmit={handleSearch}></SearchBar>
+      <Slider></Slider>
     </div>
   );
 };
