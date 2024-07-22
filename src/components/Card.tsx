@@ -7,6 +7,7 @@ import {
   Public,
   CardContentText,
 } from './CardSlider';
+import { Link } from 'react-router-dom';
 
 const CardStyled = styled.div`
   border: 1px solid #f0f1f1;
@@ -34,7 +35,9 @@ const Card: React.FC<CardSliderProps> = (props) => {
   return (
     <CardStyled>
       <CardContent>
-        <Image src={imageUrl} alt={title} />
+        <Link to={`/details/${id}`}>
+          <Image src={imageUrl} alt={title} />
+        </Link>
         <CardContentText>
           <Title>{title}</Title>
           <Artist>{artist}</Artist>

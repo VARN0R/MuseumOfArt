@@ -65,7 +65,10 @@ const Header = () => {
   const location = useLocation();
 
   let navItemHomeDisplay = 'none';
-  if (location.pathname.includes('/favorites')) {
+  if (
+    location.pathname.includes('/favorites') ||
+    location.pathname.includes('/details')
+  ) {
     navItemHomeDisplay = 'flex';
   }
 

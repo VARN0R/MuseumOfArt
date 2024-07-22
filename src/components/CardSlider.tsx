@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import CardSliderProps from '../types/CardSliderProps';
+import { Link } from 'react-router-dom';
 
 const CardSliderStyled = styled.div`
   border-radius: 8px;
@@ -78,7 +79,10 @@ const CardSlider: React.FC<CardSliderProps> = (props) => {
 
   return (
     <CardSliderStyled>
-      <Image src={imageUrl} alt={title} />
+      <Link to={`/details/${id}`}>
+        <Image src={imageUrl} alt={title} />
+      </Link>
+
       <CardContent>
         <CardContentText>
           <Title>{title}</Title>
