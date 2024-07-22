@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import CardSlider from './CardSlider';
+import { CardSlider } from './CardSlider';
 import styled from 'styled-components';
 import Subtitle from './Subtitle';
 import Container from './Container';
@@ -67,7 +67,8 @@ const Slider: React.FC = () => {
   const itemsPerPage = 3;
 
   useEffect(() => {
-    axios.get('https://api.artic.edu/api/v1/artworks').then((response) => {
+    const fetchArtworks = async () => {
+      const response = await axios.get('https://api.artic.edu/api/v1/artworks');
       const artworks = response.data.data.map((art: any) => ({
         id: art.id,
         title: art.title,
@@ -75,7 +76,12 @@ const Slider: React.FC = () => {
         imageUrl: `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`,
       }));
       setArts(artworks);
-    });
+
+      const artsId: Array<number> = artworks.map((item: any) => item.id);
+      localStorage.setItem('artsId', JSON.stringify(artsId));
+    };
+
+    fetchArtworks();
 
     const storedFavorites = JSON.parse(
       localStorage.getItem('favorites') || '[]'
