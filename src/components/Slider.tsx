@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import CardSlider from './CardSlider';
+import { CardSlider } from './CardSlider';
 import styled from 'styled-components';
 import Subtitle from './Subtitle';
 import Container from './Container';
