@@ -4,6 +4,7 @@ import SearchBar from '../components/SearchBar';
 import Title from '../components/Title';
 import axios from 'axios';
 import Slider from '../components/Slider';
+import Footer from '../components/Footer';
 
 const Home = () => {
   const [artworks, setArtworks] = useState([]);
@@ -23,6 +24,7 @@ const Home = () => {
       <Title></Title>
       <SearchBar onSubmit={handleSearch}></SearchBar>
       <Slider></Slider>
+      <Footer></Footer>
     </div>
   );
 };
