@@ -31,7 +31,6 @@ const PaginationButton = styled.button`
   border: none;
   color: #333;
   cursor: pointer;
-  margin: 0 4px;
   font-family: var(--second-family);
   font-weight: 300;
   font-size: 18px;
@@ -39,16 +38,20 @@ const PaginationButton = styled.button`
   color: #393939;
 
   &:disabled {
-    color: #ccc;
+    opacity: 0;
     cursor: not-allowed;
   }
 `;
 
-const PageActive = styled(PaginationButton)`
-  background: #f17900;
+const Page = styled(PaginationButton)`
+  background: none;
   border-radius: 4px;
   width: 30px;
   height: 30px;
+`;
+
+const PageActive = styled(Page)`
+  background: #f17900;
   color: #fff;
 `;
 
@@ -90,6 +93,7 @@ const Slider: React.FC = () => {
     );
   };
 
+  console.log('page ' + page);
   const paginatedArts = arts.slice(
     (page - 1) * itemsPerPage,
     page * itemsPerPage
@@ -128,7 +132,11 @@ const Slider: React.FC = () => {
             {[...Array(Math.ceil(arts.length / itemsPerPage)).keys()].map(
               (num) => (
                 <PaginationButton key={num} onClick={() => setPage(num + 1)}>
-                  <PageActive>{num + 1}</PageActive>
+                  {page === num + 1 ? (
+                    <PageActive>{num + 1}</PageActive>
+                  ) : (
+                    <Page>{num + 1}</Page>
+                  )}
                 </PaginationButton>
               )
             )}
