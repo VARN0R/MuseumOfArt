@@ -4,6 +4,9 @@ import SubtitleProps from '../types/SubtitleProps';
 
 const SubtitleStyled = styled.div`
   margin: 120px auto 0 auto;
+  @media (max-width: 768px) {
+    margin-top: 60px;
+  }
 `;
 
 const TopTextStyled = styled.div`
