@@ -8,6 +8,10 @@ import {
   CardContentText,
 } from './CardSlider';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import loadingGif from '../assets/gif/loading.gif';
+import Loader from './Loader';
+import ImageProps from '../types/ImageProps';
 
 const CardStyled = styled.div`
   border: 1px solid #f0f1f1;
@@ -17,9 +21,10 @@ const CardStyled = styled.div`
   background: #fff;
 `;
 
-const Image = styled.img`
+const Image = styled.img<ImageProps>`
   width: 80px;
   height: 80px;
+  display: ${(props) => (props.loaded ? 'block' : 'none')};
   object-fit: cover;
 `;
 
@@ -31,12 +36,20 @@ const CardContent = styled.div`
 
 const Card: React.FC<CardSliderProps> = (props) => {
   const { id, title, artist, imageUrl, isFavorite, onToggleFavorite } = props;
-
+  const [imageLoad, setImageLoad] = useState<boolean>(false);
   return (
     <CardStyled>
       <CardContent>
         <Link to={`/details/${id}`}>
-          <Image src={imageUrl} alt={title} />
+          <Loader width="80px" height="80px" loaded={imageLoad}>
+            <img src={loadingGif} alt="Loading..." />
+          </Loader>
+          <Image
+            src={imageUrl}
+            alt={title}
+            loaded={imageLoad}
+            onLoad={() => setImageLoad(true)}
+          />
         </Link>
         <CardContentText>
           <Title title={title}>{title}</Title>

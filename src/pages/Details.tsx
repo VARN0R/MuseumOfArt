@@ -5,6 +5,9 @@ import { useEffect, useState } from 'react';
 import Container from '../components/Container';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import ImageProps from '../types/ImageProps';
+import Loader from '../components/Loader';
+import loadingGif from '../assets/gif/loading.gif';
 
 interface ArtDetails {
   id: number;
@@ -19,9 +22,10 @@ interface ArtDetails {
   repository: string;
 }
 
-const Image = styled.img`
+const Image = styled.img<ImageProps>`
   width: 497px;
   height: 570px;
+  display: ${(props) => (props.loaded ? 'block' : 'none')};
   object-fit: cover;
 `;
 
@@ -90,6 +94,7 @@ const DetailsContainer = styled.div`
 
 const Details = () => {
   const [art, setArt] = useState<ArtDetails>();
+  const [imageLoad, setImageLoad] = useState<boolean>(false);
 
   const location = useLocation();
   const match = location.pathname.match(/\/details\/(\d+)/);
@@ -123,7 +128,15 @@ const Details = () => {
       <Header></Header>
       <Container>
         <DetailsContainer>
-          <Image src={art?.imageUrl} alt={art?.title}></Image>
+          <Loader loaded={imageLoad} width="497px" height="570px">
+            <img src={loadingGif} alt="Loading..." />
+          </Loader>
+          <Image
+            src={art?.imageUrl}
+            alt={art?.title}
+            loaded={imageLoad}
+            onLoad={() => setImageLoad(true)}
+          ></Image>
 
           <DetailsText>
             <Title>{art?.title}</Title>
