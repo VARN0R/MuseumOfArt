@@ -4,6 +4,7 @@ import Container from './Container';
 import logoHeader from '../assets/img/logoHeader.svg';
 import homeIcon from '../assets/img/homeIcon.svg';
 import favoritesIcon from '../assets/img/favoritesIcon.svg';
+import { useState } from 'react';
 
 const HeaderStyled = styled.header`
   background: linear-gradient(
@@ -14,6 +15,10 @@ const HeaderStyled = styled.header`
   );
   height: 127px;
   padding: 32px 0;
+  @media (max-width: 576px) {
+    height: auto;
+    padding: 16px 0;
+  }
 `;
 
 const Logo = styled.div`
@@ -25,6 +30,9 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 576px) {
+    flex-direction: column;
+  }
 `;
 
 const Icon = styled.div`
@@ -44,12 +52,32 @@ const NavItem = styled.div<NavItemProps>`
   &:nth-child(1) {
     display: ${({ display }) => display || 'none'};
   }
+  @media (max-width: 576px) {
+    margin-left: 0;
+    margin-bottom: 16px;
+  }
 `;
 
-const Links = styled.div`
+interface LinkProps {
+  open: boolean;
+}
+const Links = styled.div<LinkProps>`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  @media (max-width: 576px) {
+    flex-direction: column;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    background-color: black;
+    opacity: 0.8;
+    display: ${({ open }) => (open ? 'flex' : 'none')};
+    width: 100%;
+  }
 `;
 
 const LinkStyled = styled(Link)`
@@ -57,15 +85,43 @@ const LinkStyled = styled(Link)`
   font-size: 16px;
   color: #fff;
   text-decoration: none;
-  transition: 0.5s all;
-  &:hover {
-    color: #fff;
-    text-decoration: underline;
+  display: flex;
+
+  @media (max-width: 576px) {
+    font-size: 24px;
   }
+`;
+
+const Hamburger = styled.div`
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  position: absolute;
+  z-index: 3;
+  top: 10px;
+  right: 10px;
+
+  span {
+    height: 2px;
+    background: #fff;
+    margin: 4px 0;
+    width: 25px;
+  }
+
+  @media (max-width: 576px) {
+    display: flex;
+  }
+`;
+
+const NavItemText = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Header = () => {
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   let navItemHomeDisplay = 'none';
   if (
@@ -83,19 +139,29 @@ const Header = () => {
             <img src={logoHeader} alt="logo header" />
           </Logo>
 
-          <Links>
+          <Hamburger onClick={() => setMenuOpen(!menuOpen)}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </Hamburger>
+
+          <Links open={menuOpen}>
             <NavItem display={navItemHomeDisplay}>
-              <Icon>
-                <img src={homeIcon} alt="home icon" />
-              </Icon>
-              <LinkStyled to="/">Home</LinkStyled>
+              <LinkStyled to="/">
+                <Icon>
+                  <img src={homeIcon} alt="home icon" />
+                </Icon>
+                <NavItemText>Home</NavItemText>
+              </LinkStyled>
             </NavItem>
 
             <NavItem display={navItemHomeDisplay}>
-              <Icon>
-                <img src={favoritesIcon} alt="favorites icon" />
-              </Icon>
-              <LinkStyled to="/favorites">Your favorites</LinkStyled>
+              <LinkStyled to="/favorites">
+                <Icon>
+                  <img src={favoritesIcon} alt="favorites icon" />
+                </Icon>
+                <NavItemText>Your favorites</NavItemText>
+              </LinkStyled>
             </NavItem>
           </Links>
         </Nav>
