@@ -20,6 +20,9 @@ const CardStyled = styled.div`
   width: 416px;
   height: 130px;
   background: #fff;
+  @media (max-width: 576px) {
+    width: 350px;
+  }
 `;
 
 const Image = styled.img<ImageProps>`

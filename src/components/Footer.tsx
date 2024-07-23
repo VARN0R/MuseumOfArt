@@ -8,6 +8,9 @@ const FooterStyled = styled.footer`
   padding: 32px 0;
   background: #fff;
   margin-top: 120px;
+  @media (max-width: 768px) {
+    margin-top: 60px;
+  }
 `;
 
 const FooterContent = styled.div`

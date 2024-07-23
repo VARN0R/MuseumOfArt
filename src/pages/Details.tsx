@@ -27,6 +27,12 @@ const Image = styled.img<ImageProps>`
   height: 570px;
   display: ${(props) => (props.loaded ? 'block' : 'none')};
   object-fit: cover;
+  @media (max-width: 1200px) {
+    width: 350px;
+  }
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 `;
 
 const Artist = styled.div`
@@ -58,6 +64,9 @@ const Title = styled.div`
 
 const Subtitle = styled(Title)`
   margin-top: 170px;
+  @media (max-width: 992px) {
+    margin-top: 60px;
+  }
 `;
 
 const Nationality = styled.div`
@@ -83,13 +92,25 @@ const Repository = styled(Nationality)`
 `;
 
 const DetailsText = styled.div`
-  width: 703px;
+  width: 600px;
+  @media (max-width: 1200px) {
+    width: 550px;
+  }
+  @media (max-width: 992px) {
+    margin-top: 40px;
+  }
+  @media (max-width: 576px) {
+    width: 350px;
+  }
 `;
 
 const DetailsContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 120px;
+  margin-top: 40px;
+  @media (max-width: 992px) {
+    flex-direction: column;
+  }
 `;
 
 const Details = () => {

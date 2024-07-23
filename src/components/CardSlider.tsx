@@ -13,6 +13,15 @@ const CardSliderStyled = styled.div`
   width: 387px;
   height: 514px;
   position: relative;
+
+  @media (max-width: 1200px) {
+    width: 300px;
+  }
+
+  @media (max-width: 992px) {
+    width: 100%;
+    margin-top: 20px;
+  }
 `;
 
 const Image = styled.img<ImageProps>`
@@ -34,10 +43,17 @@ const CardContent = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 1200px) {
+    width: 250px;
+  }
 `;
 
 const CardContentText = styled.div`
   width: 219px;
+  @media (max-width: 1200px) {
+    width: 150px;
+  }
 `;
 
 const Title = styled.h3`
@@ -50,6 +66,10 @@ const Title = styled.h3`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (max-width: 1200px) {
+    width: 150px;
+  }
 `;
 
 const Artist = styled.p`
@@ -62,6 +82,10 @@ const Artist = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (max-width: 1200px) {
+    width: 150px;
+  }
 `;
 
 const Public = styled.div`
