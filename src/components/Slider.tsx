@@ -4,13 +4,7 @@ import { CardSlider } from './CardSlider';
 import styled from 'styled-components';
 import Subtitle from './Subtitle';
 import Container from './Container';
-
-interface Art {
-  id: number;
-  title: string;
-  artist: string;
-  imageUrl: string;
-}
+import Art from '../types/Art';
 
 const ArtContainer = styled.div`
   display: flex;
@@ -60,34 +54,18 @@ const PaginationWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-const Slider: React.FC = () => {
-  const [arts, setArts] = useState<Art[]>([]);
-  const [favorites, setFavorites] = useState<number[]>([]);
+interface SliderProps {
+  arts: Art[];
+}
+
+const Slider: React.FC<SliderProps> = ({ arts }) => {
+  const [favorites, setFavorites] = useState<number[]>(() => {
+    const storedFavorites = localStorage.getItem('favorites');
+    return storedFavorites ? JSON.parse(storedFavorites) : [];
+  });
   const [page, setPage] = useState(1);
   const itemsPerPage = 3;
-
-  useEffect(() => {
-    const fetchArtworks = async () => {
-      const response = await axios.get('https://api.artic.edu/api/v1/artworks');
-      const artworks = response.data.data.map((art: any) => ({
-        id: art.id,
-        title: art.title,
-        artist: art.artist_title,
-        imageUrl: `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`,
-      }));
-      setArts(artworks);
-
-      const artsId: Array<number> = artworks.map((item: any) => item.id);
-      localStorage.setItem('artsId', JSON.stringify(artsId));
-    };
-
-    fetchArtworks();
-
-    const storedFavorites = JSON.parse(
-      localStorage.getItem('favorites') || '[]'
-    );
-    setFavorites(storedFavorites);
-  }, []);
+  const amountSliderArts = 12;
 
   useEffect(() => {
     localStorage.setItem('favorites', JSON.stringify(favorites));
@@ -99,7 +77,6 @@ const Slider: React.FC = () => {
     );
   };
 
-  console.log('page ' + page);
   const paginatedArts = arts.slice(
     (page - 1) * itemsPerPage,
     page * itemsPerPage
@@ -135,7 +112,7 @@ const Slider: React.FC = () => {
             >
               {'<'}
             </PaginationButton>
-            {[...Array(Math.ceil(arts.length / itemsPerPage)).keys()].map(
+            {[...Array(Math.ceil(amountSliderArts / itemsPerPage)).keys()].map(
               (num) => (
                 <PaginationButton key={num} onClick={() => setPage(num + 1)}>
                   {page === num + 1 ? (
@@ -148,7 +125,7 @@ const Slider: React.FC = () => {
             )}
             <PaginationButton
               onClick={() => setPage(page + 1)}
-              disabled={page === Math.ceil(arts.length / itemsPerPage)}
+              disabled={page === Math.ceil(amountSliderArts / itemsPerPage)}
             >
               {'>'}
             </PaginationButton>

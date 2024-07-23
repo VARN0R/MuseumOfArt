@@ -3,7 +3,7 @@ import Card from './Card';
 import Container from './Container';
 import Subtitle from './Subtitle';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import Art from '../types/Art';
 
 const GalleryContainer = styled.div`
   display: grid;
@@ -12,62 +12,27 @@ const GalleryContainer = styled.div`
   margin-top: 40px;
 `;
 
-interface Art {
-  id: number;
-  title: string;
-  artist: string;
-  imageUrl: string;
+interface GalleryProps {
+  arts: Art[];
 }
 
-const Gallery = () => {
-  const [arts, setArts] = useState<Art[]>([]);
-  const [favoritesGallery, setFavoritesGallery] = useState<number[]>([]);
+const Gallery: React.FC<GalleryProps> = ({ arts }) => {
+  const [favorites, setFavorites] = useState<number[]>(() => {
+    const storedFavorites = localStorage.getItem('favorites');
+    return storedFavorites ? JSON.parse(storedFavorites) : [];
+  });
 
   useEffect(() => {
-    const fetchArtworks = async () => {
-      axios
-        .get('https://api.artic.edu/api/v1/artworks', {
-          params: {
-            page: 1,
-            limit: 50,
-          },
-        })
-        .then((response) => {
-          const artworks = response.data.data.map((art: any) => ({
-            id: art.id,
-            title: art.title,
-            artist: art.artist_title,
-            imageUrl: `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`,
-          }));
-          setArts(artworks);
-        });
-    };
-
-    fetchArtworks();
-
-    const storedFavorites = JSON.parse(
-      localStorage.getItem('favoritesGallery') || '[]'
-    );
-    setFavoritesGallery(storedFavorites);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('favoritesGallery', JSON.stringify(favoritesGallery));
-  }, [favoritesGallery]);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
 
   const handleToggleFavorite = (id: number) => {
-    setFavoritesGallery((favs) =>
+    setFavorites((favs) =>
       favs.includes(id) ? favs.filter((favId) => favId !== id) : [...favs, id]
     );
   };
 
-  const storedArtsSliderId = JSON.parse(localStorage.getItem('artsId') || '[]');
-
-  const unicueArts = arts.filter(
-    (item) => !storedArtsSliderId.includes(item.id)
-  );
-
-  const galleryArts = unicueArts.slice(0, 9);
+  const galleryArts = arts.slice(13, 22);
 
   return (
     <div>
@@ -84,7 +49,7 @@ const Gallery = () => {
               title={art.title}
               artist={art.artist}
               imageUrl={art.imageUrl}
-              isFavorite={favoritesGallery.includes(art.id)}
+              isFavorite={favorites.includes(art.id)}
               onToggleFavorite={handleToggleFavorite}
             />
           ))}
