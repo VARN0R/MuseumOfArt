@@ -22,6 +22,12 @@ const Title = styled.h2`
     display: block;
     color: #f17900;
   }
+
+  @media (max-width: 768px) {
+    margin-top: 60px;
+    font-size: 32px;
+    width: 100%;
+  }
 `;
 
 const FavoritesContainer = styled.div`
@@ -29,10 +35,23 @@ const FavoritesContainer = styled.div`
   grid-gap: 10px;
   grid-template-columns: 1fr 1fr 1fr;
   margin-top: 40px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+  }
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const FavoritesIconTitle = styled.img`
   display: inline-block;
+  @media (max-width: 768px) {
+    height: 40px;
+  }
 `;
 
 const FavoritesTitleUnder = styled.div`
