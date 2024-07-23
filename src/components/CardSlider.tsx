@@ -36,10 +36,14 @@ const CardContentText = styled.div`
 
 const Title = styled.h3`
   font-weight: 500;
+  width: 219px;
   font-size: 17px;
   line-height: 150%;
   letter-spacing: -0.03em;
   color: #393939;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const Artist = styled.p`
@@ -47,7 +51,11 @@ const Artist = styled.p`
   font-size: 15px;
   line-height: 171%;
   letter-spacing: -0.01em;
+  width: 219px;
   color: #e0a449;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const Public = styled.div`
@@ -85,8 +93,8 @@ const CardSlider: React.FC<CardSliderProps> = (props) => {
 
       <CardContent>
         <CardContentText>
-          <Title>{title}</Title>
-          <Artist>{artist}</Artist>
+          <Title title={title}>{title}</Title>
+          <Artist title={artist}>{artist}</Artist>
           <Public>Public</Public>
         </CardContentText>
 

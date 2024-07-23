@@ -39,8 +39,8 @@ const Card: React.FC<CardSliderProps> = (props) => {
           <Image src={imageUrl} alt={title} />
         </Link>
         <CardContentText>
-          <Title>{title}</Title>
-          <Artist>{artist}</Artist>
+          <Title title={title}>{title}</Title>
+          <Artist title={artist}>{artist ? artist : 'Name is unknown'}</Artist>
           <Public>Public</Public>
         </CardContentText>
 
