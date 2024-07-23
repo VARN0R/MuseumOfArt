@@ -17,6 +17,11 @@ const FormStyled = styled(Form)`
   position: relative;
   width: 762px;
   margin: 72px auto 0 auto;
+
+  @media (max-width: 768px) {
+    margin-top: 36px;
+    width: 100%;
+  }
 `;
 
 const FieldStyled = styled(Field)`
@@ -26,6 +31,10 @@ const FieldStyled = styled(Field)`
   height: 64px;
   background: rgba(57, 57, 57, 0.05);
   border: none;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const ErrorMessageStyled = styled(ErrorMessage)`
