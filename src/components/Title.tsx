@@ -11,6 +11,12 @@ const TitleStyled = styled.div`
   span {
     color: #f17900;
   }
+
+  @media (max-width: 768px) {
+    margin-top: 60px;
+    font-size: 32px;
+    width: 100%;
+  }
 `;
 
 const Title = () => {
