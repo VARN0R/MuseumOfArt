@@ -10,6 +10,11 @@ const ArtContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 40px;
+  @media (max-width: 992px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const Pagination = styled.div`
