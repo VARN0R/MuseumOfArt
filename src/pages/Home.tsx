@@ -7,6 +7,7 @@ import Slider from '../components/Slider';
 import Footer from '../components/Footer';
 import Gallery from '../components/Gallery';
 import Art from '../types/Art';
+import SearchedCarts from '../components/SearchedCarts';
 
 interface HomeProps {
   arts: Art[];
@@ -27,6 +28,7 @@ const Home: React.FC<HomeProps> = ({ arts }) => {
       <Header></Header>
       <Title></Title>
       <SearchBar onSubmit={handleSearch}></SearchBar>
+      <SearchedCarts arts={searchedArtworks}></SearchedCarts>
       <Slider arts={arts}></Slider>
       <Gallery arts={arts}></Gallery>
       <Footer></Footer>

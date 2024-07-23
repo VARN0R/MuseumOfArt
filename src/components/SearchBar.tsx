@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styled from 'styled-components';
 import { debounce } from 'lodash';
 import Container from './Container';
+import searchIcon from '../assets/img/searchIcon.svg';
+import loadingGif from '../assets/gif/loading.gif';
 
 const ButtonStyled = styled.button`
   all: unset;
@@ -41,14 +43,28 @@ const ErrorMessageStyled = styled(ErrorMessage)`
   color: red;
 `;
 
+const LoadingStyled = styled.img`
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  width: 24px;
+  height: 24px;
+`;
+
 const SearchBar: React.FC<{ onSubmit: (values: any) => void }> = ({
   onSubmit,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const validationSchema = Yup.object({
     query: Yup.string().required('Search query is required'),
   });
 
-  const debouncedSubmit = debounce(onSubmit, 3000);
+  const debouncedSubmit = debounce(async (values: any) => {
+    setIsLoading(true);
+    await onSubmit(values);
+    setIsLoading(false);
+  }, 1000);
 
   return (
     <Container>
@@ -57,38 +73,20 @@ const SearchBar: React.FC<{ onSubmit: (values: any) => void }> = ({
         validationSchema={validationSchema}
         onSubmit={debouncedSubmit}
       >
-        <FormStyled>
-          <FieldStyled
-            name="query"
-            type="text"
-            placeholder="Search Art, Artist, Work..."
-          />
-          <ErrorMessageStyled name="query" component="div" />
-          <ButtonStyled type="submit">
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 32 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M14.5 25C20.299 25 25 20.299 25 14.5C25 8.70101 20.299 4 14.5 4C8.70101 4 4 8.70101 4 14.5C4 20.299 8.70101 25 14.5 25Z"
-                stroke="#393939"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M28 28L22 22"
-                stroke="#393939"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </ButtonStyled>
-        </FormStyled>
+        {() => (
+          <FormStyled>
+            <FieldStyled
+              name="query"
+              type="text"
+              placeholder="Search Art, Artist, Work..."
+            />
+            <ErrorMessageStyled name="query" component="div" />
+            <ButtonStyled type="submit">
+              <img src={searchIcon} alt="search icon" />
+            </ButtonStyled>
+            {isLoading && <LoadingStyled src={loadingGif} alt="loading" />}
+          </FormStyled>
+        )}
       </Formik>
     </Container>
   );
