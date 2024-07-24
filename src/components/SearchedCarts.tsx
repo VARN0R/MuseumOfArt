@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import Card from './Card';
 import Container from './Container';
-import Subtitle from './Subtitle';
 import { useEffect, useState } from 'react';
-import Art from '../types/Art';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const SearchedContainer = styled.div`
   display: grid;
@@ -13,17 +12,56 @@ const SearchedContainer = styled.div`
   align-items: center;
 `;
 
-interface SearchedCartsProps {
-  arts: Art[];
+const Image = styled.img`
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+`;
+
+interface ArtSearched {
+  id: number;
+  title: string;
+  imageUrl: string;
 }
 
-const SearchedCarts: React.FC<SearchedCartsProps> = ({ arts }) => {
-  console.log(arts);
+interface SearchedCartsProps {
+  artsId: Array<number>;
+}
+
+const SearchedCarts: React.FC<SearchedCartsProps> = ({ artsId }) => {
+  const [art, setArt] = useState<ArtSearched>();
+
+  useEffect(() => {
+    if (artsId.length > 1) {
+      const fetchArtSearched = async () => {
+        const response = await axios.get(
+          `https://api.artic.edu/api/v1/artworks/${artsId[0]}`
+        );
+        const artFound = response.data.data;
+        setArt({
+          id: artFound.id,
+          title: artFound.title,
+          imageUrl: `https://www.artic.edu/iiif/2/${artFound.image_id}/full/843,/0/default.jpg`,
+        });
+      };
+
+      fetchArtSearched();
+    }
+  }, [artsId]);
+
+  console.log(artsId);
   return (
     <div>
       <Container>
         <SearchedContainer>
-          {arts.length > 0 ? arts.map((art) => <div>id:{art.id}</div>) : ''}
+          {artsId.length > 1 ? (
+            <Link to={`/details/${art?.id}`}>
+              <Image src={art?.imageUrl} alt={art?.title} />
+            </Link>
+          ) : (
+            ''
+          )}
+          {artsId.length === 1 ? 'Not found...' : ''}
         </SearchedContainer>
       </Container>
     </div>

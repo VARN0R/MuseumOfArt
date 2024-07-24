@@ -57,7 +57,12 @@ const SearchBar: React.FC<{ onSubmit: (values: any) => void }> = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const validationSchema = Yup.object({
-    query: Yup.string().required('Search query is required'),
+    query: Yup.string()
+      .required('Search query is required')
+      .matches(
+        /^[a-zA-Z\s]*$/,
+        'Search query cannot contain only numbers or special characters'
+      ),
   });
 
   const debouncedSubmit = debounce(async (values: any) => {
