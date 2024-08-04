@@ -1,7 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import Gallery from '../components/Gallery';
-import Art from '../types/Art';
 import { MemoryRouter } from 'react-router-dom';
+import { fireEvent, render, screen } from '@testing-library/react';
+
+import Art from '@/types/art';
+
+import Gallery from '@components/Gallery';
 
 const mockArts: Art[] = [
   { id: 1, title: 'Art 1', artist: 'Artist A', imageUrl: 'url1' },

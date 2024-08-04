@@ -1,8 +1,10 @@
-import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Slider from '../components/Slider';
-import Art from '../types/Art';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+
+import Art from '@/types/art';
+
+import Slider from '@components/Slider';
 
 const arts: Art[] = [
   { id: 1, title: 'Art 1', artist: 'Artist 1', imageUrl: 'url1' },

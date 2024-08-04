@@ -15,8 +15,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
+      "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@assets/*": ["src/assets/*"],
@@ -24,5 +25,5 @@
       "@types/*": ["src/types/*"]
     }
   },
-  "include": ["src", "setupTests.ts"]
+  "include": ["src", "setupTests.ts", "craco.config.js", "webpack.config.js"]
 }
