@@ -1,6 +1,5 @@
+import React, { useState, useEffect, useRef } from 'react';
 import { Formik } from 'formik';
-import { debounce } from 'lodash';
-import React, { useState } from 'react';
 import * as Yup from 'yup';
 
 import loadingGif from '@assets/gif/loading.gif';
@@ -14,40 +13,65 @@ import {
   FormStyled,
   LoadingStyled,
 } from './styles';
+import useDebounce from '@hooks/useDebounce';
 
 const SearchBar: React.FC<{ onSubmit: (values: any) => void }> = ({
   onSubmit,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState('');
 
   const validationSchema = Yup.object({
-    query: Yup.string()
-      .required('Search query is required')
-      .matches(
-        /^[a-zA-Z\s]*$/,
-        'Search query cannot contain only numbers or special characters'
-      ),
+    query: Yup.string().matches(
+      /^[a-zA-Z\s]*$/,
+      'Search query cannot contain only numbers or special characters'
+    ),
   });
 
-  const debouncedSubmit = debounce(async (values: any) => {
-    setIsLoading(true);
-    await onSubmit(values);
-    setIsLoading(false);
-  }, 1000);
+  const debouncedQuery = useDebounce(query, 1000);
+
+  useEffect(() => {
+    console.log(debouncedQuery);
+    const fetchData = async () => {
+      if (debouncedQuery) {
+        setIsLoading(true);
+        try {
+          await onSubmit({ query: debouncedQuery });
+        } catch (error) {
+          console.error('Error submitting search query:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+  }, [debouncedQuery]);
 
   return (
     <Container>
       <Formik
         initialValues={{ query: '' }}
         validationSchema={validationSchema}
-        onSubmit={debouncedSubmit}
+        onSubmit={(values) => {
+          if (values.query !== query) {
+            setQuery(values.query);
+          }
+        }}
       >
-        {() => (
+        {({ setFieldValue }) => (
           <FormStyled>
             <FieldStyled
               name="query"
               type="text"
               placeholder="Search Art, Artist, Work..."
+              value={query}
+              onChange={(e: {
+                target: { value: React.SetStateAction<string> };
+              }) => {
+                setQuery(e.target.value);
+                setFieldValue('query', e.target.value);
+              }}
             />
             <ErrorMessageStyled name="query" component="div" />
             <ButtonStyled type="submit">

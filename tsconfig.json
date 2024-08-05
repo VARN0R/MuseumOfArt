@@ -23,7 +23,8 @@
       "@assets/*": ["src/assets/*"],
       "@constants/*": ["src/constants/*"],
       "@types/*": ["src/types/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["src", "setupTests.ts", "craco.config.js", "webpack.config.js"]
