@@ -21,7 +21,8 @@ export const SortSelect = styled.select`
   padding: 10px 20px;
   outline: none;
   cursor: pointer;
-  border: 1px solid #f0f1f1;
+  border: 1px solid;
+  border-color: ${(props) => props.theme.colors.lightGray};
 `;
 
 export const SortContainer = styled.div`

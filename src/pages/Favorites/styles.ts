@@ -2,21 +2,21 @@ import styled from 'styled-components';
 
 export const Title = styled.h2`
   font-weight: 700;
-  font-size: 64px;
+  font-size: ${(props) => props.theme.fontSizes.massive};
   text-transform: capitalize;
 
-  color: #393939;
+  color: ${(props) => props.theme.colors.lightBlack};
   text-align: center;
   width: 690px;
   margin: 120px auto 0 auto;
   span {
     display: block;
-    color: #f17900;
+    color: ${(props) => props.theme.colors.orange};
   }
 
   @media (max-width: 768px) {
     margin-top: 60px;
-    font-size: 32px;
+    font-size: ${(props) => props.theme.fontSizes.extraLarge3};
     width: 100%;
   }
 `;

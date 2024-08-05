@@ -14,7 +14,7 @@ const Loader = styled.div<LoaderProps>`
   display: ${(props) => (props.loaded ? 'none' : 'flex')};
   justify-content: center;
   align-items: center;
-  background-color: #f0f0f0;
+  background-color: ${(props) => props.theme.colors.white};
   img {
     width: ${(props) => getImgSize(props.width)};
     height: ${(props) => getImgSize(props.width)};

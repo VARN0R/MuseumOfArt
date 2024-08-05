@@ -6,12 +6,7 @@ import LinkProps from '@/types/linkProps';
 import NavItemProps from '@/types/navItemProps';
 
 export const HeaderStyled = styled.header`
-  background: linear-gradient(
-    90deg,
-    #343333 16.73%,
-    #484848 58.63%,
-    #282828 98.63%
-  );
+  background: ${(props) => props.theme.colors.gradientBlack};
   height: 127px;
   padding: 32px 0;
   @media (max-width: ${BREAKPOINTS.sm}) {
@@ -65,7 +60,7 @@ export const Links = styled.div<LinkProps>`
     justify-content: center;
     align-items: center;
     height: 200px;
-    background-color: black;
+    background-color: ${(props) => props.theme.colors.mainBlack};
     opacity: 0.8;
     display: ${({ open }) => (open ? 'flex' : 'none')};
     width: 100%;
@@ -74,13 +69,13 @@ export const Links = styled.div<LinkProps>`
 
 export const LinkStyled = styled(Link)`
   font-weight: 400;
-  font-size: 16px;
-  color: #fff;
+  font-size: ${(props) => props.theme.fontSizes.small2};
+  color: ${(props) => props.theme.colors.white};
   text-decoration: none;
   display: flex;
 
   @media (max-width: ${BREAKPOINTS.sm}) {
-    font-size: 24px;
+    font-size: ${(props) => props.theme.fontSizes.extraLarge};
   }
 `;
 
@@ -95,7 +90,7 @@ export const Hamburger = styled.div`
 
   span {
     height: 2px;
-    background: #fff;
+    background: ${(props) => props.theme.colors.white};
     margin: 4px 0;
     width: 25px;
   }

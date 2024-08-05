@@ -5,7 +5,7 @@ import { BREAKPOINTS } from '@constants/index';
 export const FooterStyled = styled.footer`
   height: 127px;
   padding: 32px 0;
-  background: #fff;
+  background: ${(props) => props.theme.colors.white};
   margin-top: 120px;
   @media (max-width: ${BREAKPOINTS.md}) {
     margin-top: 60px;

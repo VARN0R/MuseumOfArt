@@ -4,11 +4,12 @@ import { BREAKPOINTS } from '@constants/index';
 import ImageProps from '@/types/imageProps';
 
 export const CardStyled = styled.div`
-  border: 1px solid #f0f1f1;
+  border: 1px solid;
+  border-color: ${(props) => props.theme.colors.lightGray};
   padding: 25px 13px;
   width: 416px;
   height: 130px;
-  background: #fff;
+  background: ${(props) => props.theme.colors.white};
   @media (max-width: ${BREAKPOINTS.sm}) {
     width: 350px;
   }

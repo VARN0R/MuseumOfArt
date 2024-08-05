@@ -1,15 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/App';
-import { createGlobalStyle } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 
-const GlobalStyles = createGlobalStyle`
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-`;
+import { GlobalStyles } from '@styles/globalStyles';
+import { myTheme } from '@styles/myTheme';
+
+import App from '@components/App';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,7 +13,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <>
-    <GlobalStyles></GlobalStyles>
-    <App />
+    <ThemeProvider theme={myTheme}>
+      <GlobalStyles />
+      <App />
+    </ThemeProvider>
   </>
 );

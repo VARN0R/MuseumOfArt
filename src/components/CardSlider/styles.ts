@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 
 import { BREAKPOINTS } from '@constants/index';
+
 import ImageProps from '@/types/imageProps';
 import FavoriteButtonProps from '@/types/favoriteButtonProps';
 
 export const FavoriteButton = styled.button<FavoriteButtonProps>`
-  background: ${(props) => (props.favorite ? '#FBD7B2' : '#F9F9F9')};
+  background: ${(props) =>
+    props.favorite ? props.theme.colors.peach : props.theme.colors.lightGray};
   border: none;
   cursor: pointer;
   border-radius: 35px;
@@ -40,13 +42,14 @@ export const Image = styled.img<ImageProps>`
 
 export const CardContent = styled.div`
   padding: 17px 24px;
-  background-color: #fff;
+  background-color: ${(props) => props.theme.colors.white};
   width: 334px;
   height: 132px;
   position: absolute;
   bottom: 0px;
   right: 27px;
-  border: 1px solid #f0f1f1;
+  border: 1px solid;
+  border-color: ${(props) => props.theme.colors.lightGray};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -66,10 +69,10 @@ export const CardContentText = styled.div`
 export const Title = styled.h3`
   font-weight: 500;
   width: 219px;
-  font-size: 17px;
+  font-size: ${(props) => props.theme.fontSizes.mediumSmall};
   line-height: 150%;
   letter-spacing: -0.03em;
-  color: #393939;
+  color: ${(props) => props.theme.colors.lightBlack};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -81,11 +84,11 @@ export const Title = styled.h3`
 
 export const Artist = styled.p`
   font-weight: 400;
-  font-size: 15px;
+  font-size: ${(props) => props.theme.fontSizes.small};
   line-height: 171%;
   letter-spacing: -0.01em;
   width: 219px;
-  color: #e0a449;
+  color: ${(props) => props.theme.colors.lightPeach};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -96,11 +99,10 @@ export const Artist = styled.p`
 `;
 
 export const Public = styled.div`
-  font-size: 14px;
+  font-size: ${(props) => props.theme.fontSizes.small};
   font-weight: 700;
-  font-size: 15px;
   line-height: 171%;
   letter-spacing: -0.01em;
-  color: #393939;
+  color: ${(props) => props.theme.colors.mainBlack};
   margin-top: 8px;
 `;

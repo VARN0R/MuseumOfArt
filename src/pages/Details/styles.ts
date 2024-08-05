@@ -16,29 +16,29 @@ export const Image = styled.img<ImageProps>`
 
 export const Artist = styled.div`
   font-weight: 400;
-  font-size: 24px;
-  color: #e0a449;
+  font-size: ${(props) => props.theme.fontSizes.extraLarge};
+  color: ${(props) => props.theme.colors.lightPeach};
   margin-top: 32px;
 `;
 
 export const Date = styled.div`
   font-weight: 700;
-  font-size: 16px;
-  color: #393939;
+  font-size: ${(props) => props.theme.fontSizes.small2};
+  color: ${(props) => props.theme.colors.lightBlack};
   margin-top: 16px;
 `;
 
 export const Public = styled.div`
   font-weight: 400;
-  font-size: 16px;
-  color: #393939;
+  font-size: ${(props) => props.theme.fontSizes.small2};
+  color: ${(props) => props.theme.colors.mainBlack};
   margin-top: 16px;
 `;
 
 export const Title = styled.div`
   font-weight: 400;
-  font-size: 32px;
-  color: #393939;
+  font-size: ${(props) => props.theme.fontSizes.extraLarge3};
+  color: ${(props) => props.theme.colors.lightBlack};
 `;
 
 export const Subtitle = styled(Title)`
@@ -50,11 +50,11 @@ export const Subtitle = styled(Title)`
 
 export const Nationality = styled.div`
   font-weight: 400;
-  font-size: 16px;
-  color: #e0a449;
+  font-size: ${(props) => props.theme.fontSizes.small2};
+  color: ${(props) => props.theme.colors.lightPeach};
   margin-top: 32px;
   span {
-    color: #393939;
+    color: ${(props) => props.theme.colors.lightBlack};
   }
 `;
 

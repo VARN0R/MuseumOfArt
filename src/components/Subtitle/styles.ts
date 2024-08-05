@@ -11,14 +11,14 @@ export const SubtitleStyled = styled.div`
 
 export const TopTextStyled = styled.div`
   font-weight: 400;
-  font-size: 16px;
-  color: #e0a449;
+  font-size: ${(props) => props.theme.fontSizes.small2};
+  color: ${(props) => props.theme.colors.lightPeach};
   text-align: center;
 `;
 
 export const UnderTextStyled = styled.div`
   font-weight: 400;
-  font-size: 32px;
-  color: #393939;
+  font-size: ${(props) => props.theme.fontSizes.extraLarge3};
+  color: ${(props) => props.theme.colors.lightBlack};
   text-align: center;
 `;

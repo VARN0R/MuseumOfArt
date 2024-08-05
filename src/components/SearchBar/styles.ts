@@ -27,7 +27,7 @@ export const FieldStyled = styled(Field)`
   padding: 16px;
   width: 762px;
   height: 64px;
-  background: rgba(57, 57, 57, 0.05);
+  background: ${(props) => props.theme.colors.lightGray};
   border: none;
 
   @media (max-width: ${BREAKPOINTS.md}) {
@@ -36,7 +36,7 @@ export const FieldStyled = styled(Field)`
 `;
 
 export const ErrorMessageStyled = styled(ErrorMessage)`
-  color: red;
+  color: ${(props) => props.theme.colors.red};
 `;
 
 export const LoadingStyled = styled.img`

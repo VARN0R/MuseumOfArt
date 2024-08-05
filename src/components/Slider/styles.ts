@@ -24,13 +24,12 @@ export const Pagination = styled.div`
 export const PaginationButton = styled.button`
   background: none;
   border: none;
-  color: #333;
   cursor: pointer;
   font-family: var(--second-family);
   font-weight: 300;
-  font-size: 18px;
+  font-size: ${(props) => props.theme.fontSizes.mediumSmall2};
   line-height: 133%;
-  color: #393939;
+  color: ${(props) => props.theme.colors.mainBlack};
 
   &:disabled {
     opacity: 0;
@@ -49,8 +48,8 @@ export const Page = styled.div`
 `;
 
 export const PageActive = styled(Page)`
-  background: #f17900;
-  color: #fff;
+  background: ${(props) => props.theme.colors.orange};
+  color: ${(props) => props.theme.colors.white};
 `;
 
 export const PaginationWrapper = styled.div`
