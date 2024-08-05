@@ -1,11 +1,14 @@
 import styled from 'styled-components';
+import isPropValid from '@emotion/is-prop-valid';
 
 import { BREAKPOINTS } from '@constants/index';
 
 import ImageProps from '@/types/imageProps';
 import FavoriteButtonProps from '@/types/favoriteButtonProps';
 
-export const FavoriteButton = styled.button<FavoriteButtonProps>`
+export const FavoriteButton = styled.button.withConfig({
+  shouldForwardProp: (prop) => isPropValid(prop),
+})<FavoriteButtonProps>`
   background: ${(props) =>
     props.favorite ? props.theme.colors.peach : props.theme.colors.lightGray};
   border: none;
@@ -33,7 +36,9 @@ export const CardSliderStyled = styled.div`
   }
 `;
 
-export const Image = styled.img<ImageProps>`
+export const Image = styled.img.withConfig({
+  shouldForwardProp: (prop) => isPropValid(prop),
+})<ImageProps>`
   width: 100%;
   height: 444px;
   display: ${(props) => (props.loaded ? 'block' : 'none')};

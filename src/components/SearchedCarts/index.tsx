@@ -29,7 +29,6 @@ const SearchedCarts: React.FC<SearchedCartsProps> = ({ artsId }) => {
     }
   }, [artsId]);
 
-  console.log(artsId);
   return (
     <div>
       <Container>

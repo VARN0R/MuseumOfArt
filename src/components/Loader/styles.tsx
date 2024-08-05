@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import isPropValid from '@emotion/is-prop-valid';
 
 import { BREAKPOINTS } from '@constants/index';
 import LoaderProps from '@/types/loaderProps';
@@ -8,7 +9,9 @@ const getImgSize = (width?: string) => {
   return parsedWidth < 100 ? '20px' : '70px';
 };
 
-const Loader = styled.div<LoaderProps>`
+const Loader = styled.div.withConfig({
+  shouldForwardProp: (prop) => isPropValid(prop),
+})<LoaderProps>`
   width: ${(props) => (props.width ? props.width : '100px')};
   height: ${(props) => (props.height ? props.height : '100px')};
   display: ${(props) => (props.loaded ? 'none' : 'flex')};

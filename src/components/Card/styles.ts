@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import isPropValid from '@emotion/is-prop-valid';
 
 import { BREAKPOINTS } from '@constants/index';
 import ImageProps from '@/types/imageProps';
@@ -15,7 +16,9 @@ export const CardStyled = styled.div`
   }
 `;
 
-export const Image = styled.img<ImageProps>`
+export const Image = styled.img.withConfig({
+  shouldForwardProp: (prop) => isPropValid(prop),
+})<ImageProps>`
   width: 80px;
   height: 80px;
   display: ${(props) => (props.loaded ? 'block' : 'none')};

@@ -1,7 +1,11 @@
-import ImageProps from '@/types/imageProps';
+import isPropValid from '@emotion/is-prop-valid';
 import styled from 'styled-components';
 
-export const Image = styled.img<ImageProps>`
+import ImageProps from '@/types/imageProps';
+
+export const Image = styled.img.withConfig({
+  shouldForwardProp: (prop) => isPropValid(prop),
+})<ImageProps>`
   width: 497px;
   height: 570px;
   display: ${(props) => (props.loaded ? 'block' : 'none')};
