@@ -27,11 +27,9 @@ const SearchBar: React.FC<{ onSubmit: (values: any) => void }> = ({
       'Search query cannot contain only numbers or special characters'
     ),
   });
-
   const debouncedQuery = useDebounce(query, 1000);
 
   useEffect(() => {
-    console.log(debouncedQuery);
     const fetchData = async () => {
       if (debouncedQuery) {
         setIsLoading(true);

@@ -1,28 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import { LINK_PATH } from '@constants/index';
 import Art from '@/types/art';
-import ErrorFallbackProps from '@/types/errorFallbackProps';
 
+import ErrorBoundary from '@components/ErrorBoundary';
 import Details from '@pages/Details';
 import Favorites from '@pages/Favorites';
 import Home from '@pages/Home';
-
-const ErrorFallback: React.FC<ErrorFallbackProps> = ({
-  error,
-  resetErrorBoundary,
-}) => {
-  return (
-    <div role="alert">
-      <p>Ой</p>
-      <pre>{error.message}</pre>
-      <button onClick={resetErrorBoundary}>Попробовать снова</button>
-    </div>
-  );
-};
 
 function App() {
   const [arts, setArts] = useState<Art[]>([]);
@@ -53,7 +39,7 @@ function App() {
     fetchArtworks();
   }, []);
   return (
-    <ReactErrorBoundary FallbackComponent={ErrorFallback}>
+    <ErrorBoundary>
       <Router>
         <Routes>
           <Route path={LINK_PATH.HOME} element={<Home arts={arts} />} />
@@ -64,7 +50,7 @@ function App() {
           />
         </Routes>
       </Router>
-    </ReactErrorBoundary>
+    </ErrorBoundary>
   );
 }
 
