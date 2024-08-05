@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 
+import { BREAKPOINTS } from '@constants/index';
+
 export const ArtContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 40px;
-  @media (max-width: 992px) {
+  @media (max-width: ${BREAKPOINTS.lg}) {
     flex-direction: column;
     justify-content: center;
     align-items: center;

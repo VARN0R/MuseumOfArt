@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import { BREAKPOINTS } from '@constants/index';
 import ImageProps from '@/types/imageProps';
 import FavoriteButtonProps from '@/types/favoriteButtonProps';
 
@@ -20,11 +21,11 @@ export const CardSliderStyled = styled.div`
   height: 514px;
   position: relative;
 
-  @media (max-width: 1200px) {
+  @media (max-width: ${BREAKPOINTS.xl}) {
     width: 300px;
   }
 
-  @media (max-width: 992px) {
+  @media (max-width: ${BREAKPOINTS.lg}) {
     width: 100%;
     margin-top: 20px;
   }
@@ -50,7 +51,7 @@ export const CardContent = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  @media (max-width: 1200px) {
+  @media (max-width: ${BREAKPOINTS.xl}) {
     width: 250px;
   }
 `;
@@ -89,7 +90,7 @@ export const Artist = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
 
-  @media (max-width: 1200px) {
+  @media (max-width: ${BREAKPOINTS.xl}) {
     width: 150px;
   }
 `;

@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 
+import { BREAKPOINTS } from '@constants/index';
+
 export const GalleryContainer = styled.div`
   display: grid;
   grid-gap: 10px;
   grid-template-columns: 1fr 1fr 1fr;
   margin-top: 40px;
-  @media (max-width: 1200px) {
+  @media (max-width: ${BREAKPOINTS.xl}) {
     grid-template-columns: 1fr 1fr;
     justify-items: center;
     align-items: center;
   }
-  @media (max-width: 992px) {
+  @media (max-width: ${BREAKPOINTS.lg}) {
     grid-template-columns: 1fr;
   }
 `;

@@ -1,5 +1,7 @@
-import ImageProps from '@/types/imageProps';
 import styled from 'styled-components';
+
+import { BREAKPOINTS } from '@constants/index';
+import ImageProps from '@/types/imageProps';
 
 export const CardStyled = styled.div`
   border: 1px solid #f0f1f1;
@@ -7,7 +9,7 @@ export const CardStyled = styled.div`
   width: 416px;
   height: 130px;
   background: #fff;
-  @media (max-width: 576px) {
+  @media (max-width: ${BREAKPOINTS.sm}) {
     width: 350px;
   }
 `;

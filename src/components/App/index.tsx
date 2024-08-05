@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+import { LINK_PATH } from '@constants/index';
 import Art from '@/types/art';
 import ErrorFallbackProps from '@/types/errorFallbackProps';
 
@@ -55,9 +56,12 @@ function App() {
     <ReactErrorBoundary FallbackComponent={ErrorFallback}>
       <Router>
         <Routes>
-          <Route path="/" element={<Home arts={arts} />} />
-          <Route path="/details/:id" element={<Details />} />
-          <Route path="/favorites" element={<Favorites arts={arts} />} />
+          <Route path={LINK_PATH.HOME} element={<Home arts={arts} />} />
+          <Route path={LINK_PATH.DETAILS} element={<Details />} />
+          <Route
+            path={LINK_PATH.FAVORITES}
+            element={<Favorites arts={arts} />}
+          />
         </Routes>
       </Router>
     </ReactErrorBoundary>

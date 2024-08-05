@@ -1,5 +1,7 @@
-import LoaderProps from '@/types/loaderProps';
 import styled from 'styled-components';
+
+import { BREAKPOINTS } from '@constants/index';
+import LoaderProps from '@/types/loaderProps';
 
 const getImgSize = (width?: string) => {
   const parsedWidth = width ? parseInt(width, 10) : 100;
@@ -18,12 +20,12 @@ const Loader = styled.div<LoaderProps>`
     height: ${(props) => getImgSize(props.width)};
   }
 
-  @media (max-width: 1200px) {
+  @media (max-width: ${BREAKPOINTS.xl}) {
     width: ${(props) => (props.width === '497px' ? '350px' : props.width)};
     height: ${(props) => (props.width === '497px' ? '570px' : props.height)};
   }
 
-  @media (max-width: 992px) {
+  @media (max-width: ${BREAKPOINTS.lg}) {
     width: ${(props) => (props.width === '497px' ? '100%' : props.width)};
     height: ${(props) => (props.width === '497px' ? '570px' : props.height)};
   }

@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
+import {
+  AMOUNT_SLIDER_ARTS,
+  LENGTH_PAGINATION,
+  PAGE_TEXT,
+} from '@constants/index';
 import SliderProps from '@/types/sliderProps';
 
 import CardSlider from '@components/CardSlider';
@@ -21,8 +26,6 @@ const Slider: React.FC<SliderProps> = ({ arts }) => {
     return storedFavorites ? JSON.parse(storedFavorites) : [];
   });
   const [page, setPage] = useState(1);
-  const itemsPerPage = 3;
-  const amountSliderArts = 12;
 
   useEffect(() => {
     localStorage.setItem('favorites', JSON.stringify(favorites));
@@ -35,18 +38,13 @@ const Slider: React.FC<SliderProps> = ({ arts }) => {
   };
 
   const paginatedArts = arts.slice(
-    (page - 1) * itemsPerPage,
-    page * itemsPerPage
+    (page - 1) * LENGTH_PAGINATION,
+    page * LENGTH_PAGINATION
   );
-
-  const subtitleProps = {
-    topText: 'Topics for you',
-    underText: 'Our special gallery',
-  };
 
   return (
     <div>
-      <Subtitle {...subtitleProps}></Subtitle>
+      <Subtitle {...PAGE_TEXT.main}></Subtitle>
       <Container>
         <ArtContainer>
           {paginatedArts.map((art) => (
@@ -69,20 +67,24 @@ const Slider: React.FC<SliderProps> = ({ arts }) => {
             >
               {'<'}
             </PaginationButton>
-            {[...Array(Math.ceil(amountSliderArts / itemsPerPage)).keys()].map(
-              (num) => (
-                <PaginationButton key={num} onClick={() => setPage(num + 1)}>
-                  {page === num + 1 ? (
-                    <PageActive>{num + 1}</PageActive>
-                  ) : (
-                    <Page>{num + 1}</Page>
-                  )}
-                </PaginationButton>
-              )
-            )}
+            {[
+              ...Array(
+                Math.ceil(AMOUNT_SLIDER_ARTS / LENGTH_PAGINATION)
+              ).keys(),
+            ].map((num) => (
+              <PaginationButton key={num} onClick={() => setPage(num + 1)}>
+                {page === num + 1 ? (
+                  <PageActive>{num + 1}</PageActive>
+                ) : (
+                  <Page>{num + 1}</Page>
+                )}
+              </PaginationButton>
+            ))}
             <PaginationButton
               onClick={() => setPage(page + 1)}
-              disabled={page === Math.ceil(amountSliderArts / itemsPerPage)}
+              disabled={
+                page === Math.ceil(AMOUNT_SLIDER_ARTS / LENGTH_PAGINATION)
+              }
             >
               {'>'}
             </PaginationButton>

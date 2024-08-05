@@ -1,7 +1,9 @@
-import NavItemProps from '@/types/navItemProps';
 import { Link } from 'react-router-dom';
-import LinkProps from '@/types/linkProps';
 import styled from 'styled-components';
+
+import { BREAKPOINTS } from '@constants/index';
+import LinkProps from '@/types/linkProps';
+import NavItemProps from '@/types/navItemProps';
 
 export const HeaderStyled = styled.header`
   background: linear-gradient(
@@ -12,7 +14,7 @@ export const HeaderStyled = styled.header`
   );
   height: 127px;
   padding: 32px 0;
-  @media (max-width: 576px) {
+  @media (max-width: ${BREAKPOINTS.sm}) {
     height: auto;
     padding: 16px 0;
   }
@@ -27,7 +29,7 @@ export const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media (max-width: 576px) {
+  @media (max-width: ${BREAKPOINTS.sm}) {
     flex-direction: column;
   }
 `;
@@ -45,7 +47,7 @@ export const NavItem = styled.div<NavItemProps>`
   &:nth-child(1) {
     display: ${({ display }) => display || 'none'};
   }
-  @media (max-width: 576px) {
+  @media (max-width: ${BREAKPOINTS.sm}) {
     margin-left: 0;
     margin-bottom: 16px;
   }
@@ -55,7 +57,7 @@ export const Links = styled.div<LinkProps>`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  @media (max-width: 576px) {
+  @media (max-width: ${BREAKPOINTS.sm}) {
     flex-direction: column;
     position: absolute;
     z-index: 2;
@@ -77,7 +79,7 @@ export const LinkStyled = styled(Link)`
   text-decoration: none;
   display: flex;
 
-  @media (max-width: 576px) {
+  @media (max-width: ${BREAKPOINTS.sm}) {
     font-size: 24px;
   }
 `;
@@ -98,7 +100,7 @@ export const Hamburger = styled.div`
     width: 25px;
   }
 
-  @media (max-width: 576px) {
+  @media (max-width: ${BREAKPOINTS.sm}) {
     display: flex;
   }
 `;

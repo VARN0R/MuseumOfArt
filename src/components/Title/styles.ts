@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { BREAKPOINTS } from '@constants/index';
+
 export const TitleStyled = styled.div`
   font-weight: 700;
   font-size: 64px;
@@ -11,7 +13,7 @@ export const TitleStyled = styled.div`
     color: #f17900;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: ${BREAKPOINTS.md}) {
     margin-top: 60px;
     font-size: 32px;
     width: 100%;

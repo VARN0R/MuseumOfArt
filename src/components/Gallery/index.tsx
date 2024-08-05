@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { FILTERS, PAGE_TEXT } from '@constants/index';
 import GalleryProps from '@/types/galleryProps';
 import Card from '@components/Card';
 import Subtitle from '@components/Subtitle';
@@ -48,16 +49,13 @@ const Gallery: React.FC<GalleryProps> = ({ arts }) => {
 
   return (
     <div>
-      <Subtitle
-        underText="Other works for you"
-        topText="Here some more"
-      ></Subtitle>
+      <Subtitle {...PAGE_TEXT.mainSecond}></Subtitle>
       <Container>
         <SortContainer>
           <SortSelect value={sortType} onChange={handleSortChange}>
-            <option value="none">No Sort</option>
-            <option value="title">Sort by Title</option>
-            <option value="artist">Sort by Artist</option>
+            <option value="none">{FILTERS[0]}</option>
+            <option value="title">{FILTERS[1]}</option>
+            <option value="artist">{FILTERS[2]}</option>
           </SortSelect>
         </SortContainer>
         <GalleryContainer>

@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
+import { BREAKPOINTS } from '@constants/index';
+
 export const SubtitleStyled = styled.div`
   margin: 120px auto 0 auto;
-  @media (max-width: 768px) {
+  @media (max-width: ${BREAKPOINTS.md}) {
     margin-top: 60px;
   }
 `;

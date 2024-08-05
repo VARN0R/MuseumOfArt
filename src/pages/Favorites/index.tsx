@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { PAGE_TEXT } from '@constants/index';
 import FavoriteProps from '@/types/favoriteProps';
 
 import favoritesTitle from '@assets/img/favoritesTitle.svg';
@@ -50,10 +51,7 @@ const Favorites: React.FC<FavoriteProps> = ({ arts }) => {
           </FavoritesTitleUnder>
         </Title>
       </Container>
-      <Subtitle
-        underText="Your favorites list"
-        topText="Saved by you"
-      ></Subtitle>
+      <Subtitle {...PAGE_TEXT.favorites}></Subtitle>
       <Container>
         <FavoritesContainer>
           {favoriteArts.map((art) => (
