@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import SliderProps from '@/types/sliderProps';
 import CardSlider from '@components/CardSlider';
@@ -30,6 +30,12 @@ const Slider: React.FC<SliderProps> = ({ query }) => {
   const { paginatedArts, loading } = usePaginatedArts(query, currentPage);
 
   const totalPages = Math.ceil(AMOUNT_SLIDER_ARTS / LENGTH_PAGINATION);
+  const handleSetPage = useCallback(
+    (page: number) => () => {
+      setPage(page);
+    },
+    []
+  );
 
   return (
     <div>
@@ -63,7 +69,7 @@ const Slider: React.FC<SliderProps> = ({ query }) => {
                   {'<'}
                 </PaginationButton>
                 {[...Array(totalPages).keys()].map((num) => (
-                  <PaginationButton key={num} onClick={() => setPage(num + 1)}>
+                  <PaginationButton key={num} onClick={handleSetPage(num + 1)}>
                     {currentPage === num + 1 ? (
                       <PageActive>{num + 1}</PageActive>
                     ) : (

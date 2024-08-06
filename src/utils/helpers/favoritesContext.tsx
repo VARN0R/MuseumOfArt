@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import FavoritesContextProps from '@/types/favoritesContextProps';
 
@@ -16,30 +23,30 @@ export const useFavorites = () => {
   return context;
 };
 
-export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [favorites, setFavorites] = useState<number[]>(
-    LocalStorageService.getFavorites()
-  );
+export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = memo(
+  ({ children }) => {
+    const [favorites, setFavorites] = useState<number[]>(
+      LocalStorageService.getFavorites()
+    );
 
-  useEffect(() => {
-    LocalStorageService.setItem('favorites', favorites);
-  }, [favorites]);
+    useEffect(() => {
+      LocalStorageService.setItem('favorites', favorites);
+    }, [favorites]);
 
-  const toggleFavorite = (id: number) => {
-    setFavorites((prevFavorites) => {
-      const updatedFavorites = prevFavorites.includes(id)
-        ? prevFavorites.filter((favId) => favId !== id)
-        : [...prevFavorites, id];
-      LocalStorageService.setItem('favorites', updatedFavorites);
-      return updatedFavorites;
-    });
-  };
+    const toggleFavorite = useCallback((id: number) => {
+      setFavorites((prevFavorites) => {
+        const updatedFavorites = prevFavorites.includes(id)
+          ? prevFavorites.filter((favId) => favId !== id)
+          : [...prevFavorites, id];
+        LocalStorageService.setItem('favorites', updatedFavorites);
+        return updatedFavorites;
+      });
+    }, []);
 
-  return (
-    <FavoritesContext.Provider value={{ favorites, toggleFavorite }}>
-      {children}
-    </FavoritesContext.Provider>
-  );
-};
+    return (
+      <FavoritesContext.Provider value={{ favorites, toggleFavorite }}>
+        {children}
+      </FavoritesContext.Provider>
+    );
+  }
+);

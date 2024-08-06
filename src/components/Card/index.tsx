@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import CardSliderProps from '@/types/cardSliderProps';
@@ -15,7 +15,7 @@ import Loader from '@components/Loader/styles';
 
 import { CardContent, CardStyled, Image } from './styles';
 
-const Card: React.FC<CardSliderProps> = (props) => {
+const Card: React.FC<CardSliderProps> = memo((props) => {
   const { id, title, artist, imageUrl, isFavorite, onToggleFavorite } = props;
   const [imageLoad, setImageLoad] = useState<boolean>(false);
   return (
@@ -47,6 +47,6 @@ const Card: React.FC<CardSliderProps> = (props) => {
       </CardContent>
     </CardStyled>
   );
-};
+});
 
 export default Card;
