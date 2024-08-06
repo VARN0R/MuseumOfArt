@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import Art from '@/types/art';
 import SliderProps from '@/types/sliderProps';
 import CardSlider from '@components/CardSlider';
 import Container from '@components/Container/styles';
@@ -11,7 +10,8 @@ import {
   PAGE_TEXT,
 } from '@constants/index';
 import { useFavorites } from '@helpers/favoritesContext';
-import { fetchPaginatedArts } from '@services/fetchPaginatedArts';
+import usePaginatedArts from '@hooks/usePaginatedArts';
+import usePagination from '@hooks/usePagination';
 
 import {
   ArtContainer,
@@ -26,30 +26,10 @@ import loadingGif from '@assets/gif/loading.gif';
 
 const Slider: React.FC<SliderProps> = ({ query }) => {
   const { favorites, toggleFavorite } = useFavorites();
-  const [paginatedArts, setPaginatedArts] = useState<Art[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(true);
+  const { currentPage, nextPage, prevPage, setPage } = usePagination();
+  const { paginatedArts, loading } = usePaginatedArts(query, currentPage);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      if (query === '') {
-        setPaginatedArts(
-          await fetchPaginatedArts(
-            currentPage,
-            'https://api.artic.edu/api/v1/artworks'
-          )
-        );
-      } else if (query !== 'not found') {
-        setPaginatedArts(await fetchPaginatedArts(currentPage, query));
-      } else if (query === 'not found') {
-        setPaginatedArts([]);
-      }
-      setLoading(false);
-    };
-
-    fetchData();
-  }, [currentPage, query]);
+  const totalPages = Math.ceil(AMOUNT_SLIDER_ARTS / LENGTH_PAGINATION);
 
   return (
     <div>
@@ -77,20 +57,13 @@ const Slider: React.FC<SliderProps> = ({ query }) => {
             <PaginationWrapper>
               <Pagination>
                 <PaginationButton
-                  onClick={() => setCurrentPage(currentPage - 1)}
+                  onClick={prevPage}
                   disabled={currentPage === 1}
                 >
                   {'<'}
                 </PaginationButton>
-                {[
-                  ...Array(
-                    Math.ceil(AMOUNT_SLIDER_ARTS / LENGTH_PAGINATION)
-                  ).keys(),
-                ].map((num) => (
-                  <PaginationButton
-                    key={num}
-                    onClick={() => setCurrentPage(num + 1)}
-                  >
+                {[...Array(totalPages).keys()].map((num) => (
+                  <PaginationButton key={num} onClick={() => setPage(num + 1)}>
                     {currentPage === num + 1 ? (
                       <PageActive>{num + 1}</PageActive>
                     ) : (
@@ -99,11 +72,8 @@ const Slider: React.FC<SliderProps> = ({ query }) => {
                   </PaginationButton>
                 ))}
                 <PaginationButton
-                  onClick={() => setCurrentPage(currentPage + 1)}
-                  disabled={
-                    currentPage ===
-                    Math.ceil(AMOUNT_SLIDER_ARTS / LENGTH_PAGINATION)
-                  }
+                  onClick={nextPage}
+                  disabled={currentPage === totalPages}
                 >
                   {'>'}
                 </PaginationButton>
