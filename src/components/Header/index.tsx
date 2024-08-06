@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import Container from '@components/Container/styles';
@@ -22,6 +22,25 @@ import {
 const Header = () => {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      setMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuOpen]);
 
   let navItemHomeDisplay = 'none';
   if (
@@ -34,7 +53,7 @@ const Header = () => {
   return (
     <HeaderStyled>
       <Container>
-        <Nav>
+        <Nav ref={menuRef}>
           <Logo>
             <img src={logoHeader} alt="logo header" />
           </Logo>
