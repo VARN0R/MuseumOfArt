@@ -1,33 +1,46 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import { FILTERS, PAGE_TEXT } from '@constants/index';
-import GalleryProps from '@/types/galleryProps';
+import Art from '@/types/art';
 import Card from '@components/Card';
-import Subtitle from '@components/Subtitle';
-
 import Container from '@components/Container/styles';
+import Subtitle from '@components/Subtitle';
+import { FILTERS, PAGE_TEXT } from '@constants/index';
+import { useFavorites } from '@helpes/favoritesContext';
+
 import { GalleryContainer, SortContainer, SortSelect } from './styles';
 
-const Gallery: React.FC<GalleryProps> = ({ arts }) => {
-  const [favorites, setFavorites] = useState<number[]>(() => {
-    const storedFavorites = localStorage.getItem('favorites');
-    return storedFavorites ? JSON.parse(storedFavorites) : [];
-  });
-
+const Gallery = () => {
+  const { favorites, toggleFavorite } = useFavorites();
   const [sortType, setSortType] = useState<string>('none');
-
-  const [isSortedAlphabetically, setIsSortedAlphabetically] =
-    useState<boolean>(false);
+  const [arts, setArts] = useState<Art[]>([]);
 
   useEffect(() => {
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-  }, [favorites]);
+    const fetchArtworks = async () => {
+      try {
+        axios
+          .get('https://api.artic.edu/api/v1/artworks', {
+            params: {
+              page: 1,
+              limit: 50,
+            },
+          })
+          .then((response) => {
+            const artworks = response.data.data.map((art: any) => ({
+              id: art.id,
+              title: art.title,
+              artist: art.artist_title,
+              imageUrl: `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`,
+            }));
+            setArts(artworks);
+          });
+      } catch (error) {
+        console.error('Error fetching artworks', error);
+      }
+    };
 
-  const handleToggleFavorite = (id: number) => {
-    setFavorites((favs) =>
-      favs.includes(id) ? favs.filter((favId) => favId !== id) : [...favs, id]
-    );
-  };
+    fetchArtworks();
+  }, []);
 
   let galleryArts = arts.slice(13, 22);
 
@@ -67,7 +80,7 @@ const Gallery: React.FC<GalleryProps> = ({ arts }) => {
               artist={art.artist}
               imageUrl={art.imageUrl}
               isFavorite={favorites.includes(art.id)}
-              onToggleFavorite={handleToggleFavorite}
+              onToggleFavorite={toggleFavorite}
             />
           ))}
         </GalleryContainer>

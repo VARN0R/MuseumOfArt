@@ -25,7 +25,7 @@ describe('Slider component', () => {
   test('renders correctly', () => {
     render(
       <MemoryRouter>
-        <Slider arts={arts} />
+        <Slider query={''} />
       </MemoryRouter>
     );
 
@@ -40,7 +40,7 @@ describe('Slider component', () => {
   test('handles pagination correctly', () => {
     render(
       <MemoryRouter>
-        <Slider arts={arts} />
+        <Slider query={''} />
       </MemoryRouter>
     );
 

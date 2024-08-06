@@ -1,15 +1,18 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { PAGE_TEXT } from '@constants/index';
-import FavoriteProps from '@/types/favoriteProps';
-
+import Art from '@/types/art';
 import favoritesTitle from '@assets/img/favoritesTitle.svg';
-
 import Card from '@components/Card';
 import Container from '@components/Container/styles';
 import Footer from '@components/Footer';
 import Header from '@components/Header';
 import Subtitle from '@components/Subtitle';
+
+import { PAGE_TEXT } from '@constants/index';
+
+import { useFavorites } from '@helpes/favoritesContext';
+
+import { fetchArtId } from '@services/fetchArtId';
 
 import {
   FavoritesContainer,
@@ -18,27 +21,29 @@ import {
   Title,
 } from './styles';
 
-const Favorites: React.FC<FavoriteProps> = ({ arts }) => {
-  const [favorites, setFavorites] = useState<number[]>(() => {
-    const storedFavorites = localStorage.getItem('favorites');
-    return storedFavorites ? JSON.parse(storedFavorites) : [];
-  });
-
-  const removeFavorite = (id: number) => {
-    setFavorites((favs) =>
-      favs.includes(id) ? favs.filter((favId) => favId !== id) : [...favs, id]
-    );
-  };
+const Favorites: React.FC = () => {
+  const { favorites, toggleFavorite } = useFavorites();
+  const [favoriteArts, setFavoriteArts] = useState<Art[]>([]);
 
   useEffect(() => {
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-  }, [favorites]);
+    const fetchFavoriteArts = async () => {
+      const artsPromises = favorites.map((id: number) => fetchArtId(id));
+      const arts = await Promise.all(artsPromises);
+      const formattedArts = arts.map((art: any) => ({
+        id: art.id,
+        title: art.title,
+        artist: art.artist_title,
+        imageUrl: `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`,
+      }));
+      setFavoriteArts(formattedArts);
+    };
 
-  const favoriteArts = arts.filter((art) => favorites.includes(art.id));
+    fetchFavoriteArts();
+  }, [favorites]);
 
   return (
     <div>
-      <Header></Header>
+      <Header />
       <Container>
         <Title>
           Here are your{' '}
@@ -46,12 +51,12 @@ const Favorites: React.FC<FavoriteProps> = ({ arts }) => {
             <FavoritesIconTitle
               src={favoritesTitle}
               alt="favorites icon title"
-            ></FavoritesIconTitle>
+            />
             <span>Favorites</span>
           </FavoritesTitleUnder>
         </Title>
       </Container>
-      <Subtitle {...PAGE_TEXT.favorites}></Subtitle>
+      <Subtitle {...PAGE_TEXT.favorites} />
       <Container>
         <FavoritesContainer>
           {favoriteArts.map((art) => (
@@ -62,12 +67,12 @@ const Favorites: React.FC<FavoriteProps> = ({ arts }) => {
               artist={art.artist}
               imageUrl={art.imageUrl}
               isFavorite={true}
-              onToggleFavorite={removeFavorite}
+              onToggleFavorite={toggleFavorite}
             />
           ))}
         </FavoritesContainer>
       </Container>
-      <Footer></Footer>
+      <Footer />
     </div>
   );
 };

@@ -24,7 +24,9 @@
       "@constants/*": ["src/constants/*"],
       "@types/*": ["src/types/*"],
       "@styles/*": ["src/styles/*"],
-      "@hooks/*": ["src/hooks/*"]
+      "@hooks/*": ["src/hooks/*"],
+      "@services/*": ["src/utils/services/*"],
+      "@helpes/*": ["src/utils/helpes/*"]
     }
   },
   "include": ["src", "setupTests.ts", "craco.config.js", "webpack.config.js"]

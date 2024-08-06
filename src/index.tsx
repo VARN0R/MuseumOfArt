@@ -7,6 +7,8 @@ import { myTheme } from '@styles/myTheme';
 
 import App from '@components/App';
 
+import { FavoritesProvider } from '@helpes/favoritesContext';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -15,7 +17,9 @@ root.render(
   <>
     <ThemeProvider theme={myTheme}>
       <GlobalStyles />
-      <App />
+      <FavoritesProvider>
+        <App />
+      </FavoritesProvider>
     </ThemeProvider>
   </>
 );

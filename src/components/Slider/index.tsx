@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 
+import Art from '@/types/art';
+import SliderProps from '@/types/sliderProps';
+import CardSlider from '@components/CardSlider';
+import Container from '@components/Container/styles';
+import Subtitle from '@components/Subtitle';
 import {
   AMOUNT_SLIDER_ARTS,
   LENGTH_PAGINATION,
   PAGE_TEXT,
 } from '@constants/index';
-import SliderProps from '@/types/sliderProps';
+import { useFavorites } from '@helpes/favoritesContext';
+import { fetchPaginatedArts } from '@services/fetchPaginatedArts';
 
-import CardSlider from '@components/CardSlider';
-import Subtitle from '@components/Subtitle';
-
-import Container from '@components/Container/styles';
 import {
   ArtContainer,
   Page,
@@ -20,76 +22,90 @@ import {
   PaginationWrapper,
 } from './styles';
 
-const Slider: React.FC<SliderProps> = ({ arts }) => {
-  const [favorites, setFavorites] = useState<number[]>(() => {
-    const storedFavorites = localStorage.getItem('favorites');
-    return storedFavorites ? JSON.parse(storedFavorites) : [];
-  });
-  const [page, setPage] = useState(1);
+const Slider: React.FC<SliderProps> = ({ query }) => {
+  const { favorites, toggleFavorite } = useFavorites();
+  const [paginatedArts, setPaginatedArts] = useState<Art[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-  }, [favorites]);
+    console.log(query);
+    const fetchData = async () => {
+      if (query === '') {
+        setPaginatedArts(
+          await fetchPaginatedArts(
+            currentPage,
+            'https://api.artic.edu/api/v1/artworks'
+          )
+        );
+      } else if (query !== 'not found') {
+        console.log(query);
+        setPaginatedArts(await fetchPaginatedArts(currentPage, query));
+      } else if (query === 'not found') {
+        setPaginatedArts([]);
+      }
+    };
 
-  const handleToggleFavorite = (id: number) => {
-    setFavorites((favs) =>
-      favs.includes(id) ? favs.filter((favId) => favId !== id) : [...favs, id]
-    );
-  };
-
-  const paginatedArts = arts.slice(
-    (page - 1) * LENGTH_PAGINATION,
-    page * LENGTH_PAGINATION
-  );
+    fetchData();
+  }, [currentPage, query]);
 
   return (
     <div>
-      <Subtitle {...PAGE_TEXT.main}></Subtitle>
+      <Subtitle {...PAGE_TEXT.main} />
       <Container>
-        <ArtContainer>
-          {paginatedArts.map((art) => (
-            <CardSlider
-              key={art.id}
-              id={art.id}
-              title={art.title}
-              artist={art.artist}
-              imageUrl={art.imageUrl}
-              isFavorite={favorites.includes(art.id)}
-              onToggleFavorite={handleToggleFavorite}
-            />
-          ))}
-        </ArtContainer>
-        <PaginationWrapper>
-          <Pagination>
-            <PaginationButton
-              onClick={() => setPage(page - 1)}
-              disabled={page === 1}
-            >
-              {'<'}
-            </PaginationButton>
-            {[
-              ...Array(
-                Math.ceil(AMOUNT_SLIDER_ARTS / LENGTH_PAGINATION)
-              ).keys(),
-            ].map((num) => (
-              <PaginationButton key={num} onClick={() => setPage(num + 1)}>
-                {page === num + 1 ? (
-                  <PageActive>{num + 1}</PageActive>
-                ) : (
-                  <Page>{num + 1}</Page>
-                )}
-              </PaginationButton>
-            ))}
-            <PaginationButton
-              onClick={() => setPage(page + 1)}
-              disabled={
-                page === Math.ceil(AMOUNT_SLIDER_ARTS / LENGTH_PAGINATION)
-              }
-            >
-              {'>'}
-            </PaginationButton>
-          </Pagination>
-        </PaginationWrapper>
+        {query !== 'not found' ? (
+          <>
+            <ArtContainer>
+              {paginatedArts.map((art) => (
+                <CardSlider
+                  key={art.id}
+                  id={art.id}
+                  title={art.title}
+                  artist={art.artist}
+                  imageUrl={art.imageUrl}
+                  isFavorite={favorites.includes(art.id)}
+                  onToggleFavorite={toggleFavorite}
+                />
+              ))}
+            </ArtContainer>
+            <PaginationWrapper>
+              <Pagination>
+                <PaginationButton
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  {'<'}
+                </PaginationButton>
+                {[
+                  ...Array(
+                    Math.ceil(AMOUNT_SLIDER_ARTS / LENGTH_PAGINATION)
+                  ).keys(),
+                ].map((num) => (
+                  <PaginationButton
+                    key={num}
+                    onClick={() => setCurrentPage(num + 1)}
+                  >
+                    {currentPage === num + 1 ? (
+                      <PageActive>{num + 1}</PageActive>
+                    ) : (
+                      <Page>{num + 1}</Page>
+                    )}
+                  </PaginationButton>
+                ))}
+                <PaginationButton
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  disabled={
+                    currentPage ===
+                    Math.ceil(AMOUNT_SLIDER_ARTS / LENGTH_PAGINATION)
+                  }
+                >
+                  {'>'}
+                </PaginationButton>
+              </Pagination>
+            </PaginationWrapper>
+          </>
+        ) : (
+          'not found'
+        )}
       </Container>
     </div>
   );

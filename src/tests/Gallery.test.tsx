@@ -27,7 +27,7 @@ describe('Gallery component', () => {
   test('renders Gallery component', () => {
     render(
       <MemoryRouter>
-        <Gallery arts={mockArts} />
+        <Gallery />
       </MemoryRouter>
     );
     expect(screen.getByText(/Here some more/i)).toBeInTheDocument();
@@ -36,7 +36,7 @@ describe('Gallery component', () => {
   test('sorts arts by title', () => {
     render(
       <MemoryRouter>
-        <Gallery arts={mockArts} />
+        <Gallery />
       </MemoryRouter>
     );
     fireEvent.change(screen.getByRole('combobox'), {
@@ -54,7 +54,7 @@ describe('Gallery component', () => {
   test('sorts arts by artist', () => {
     render(
       <MemoryRouter>
-        <Gallery arts={mockArts} />
+        <Gallery />
       </MemoryRouter>
     );
     fireEvent.change(screen.getByRole('combobox'), {
