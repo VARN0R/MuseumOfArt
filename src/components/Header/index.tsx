@@ -1,11 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import images from '@assets/images';
 import Container from '@components/Container/styles';
-
-import favoritesIcon from '@assets/img/favoritesIcon.svg';
-import homeIcon from '@assets/img/homeIcon.svg';
-import logoHeader from '@assets/img/logoHeader.svg';
 
 import {
   Hamburger,
@@ -55,7 +52,7 @@ const Header = () => {
       <Container>
         <Nav ref={menuRef}>
           <Logo>
-            <img src={logoHeader} alt="logo header" />
+            <img src={images.logoHeader} alt="logo header" />
           </Logo>
 
           <Hamburger onClick={() => setMenuOpen(!menuOpen)}>
@@ -68,7 +65,7 @@ const Header = () => {
             <NavItem display={navItemHomeDisplay}>
               <LinkStyled to="/">
                 <Icon>
-                  <img src={homeIcon} alt="home icon" />
+                  <img src={images.homeIcon} alt="home icon" />
                 </Icon>
                 <NavItemText>Home</NavItemText>
               </LinkStyled>
@@ -77,7 +74,7 @@ const Header = () => {
             <NavItem display={navItemHomeDisplay}>
               <LinkStyled to="/favorites">
                 <Icon>
-                  <img src={favoritesIcon} alt="favorites icon" />
+                  <img src={images.favoritesIcon} alt="favorites icon" />
                 </Icon>
                 <NavItemText>Your favorites</NavItemText>
               </LinkStyled>

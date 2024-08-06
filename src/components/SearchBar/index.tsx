@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
 import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 
 import loadingGif from '@assets/gif/loading.gif';
-import searchIcon from '@assets/img/searchIcon.svg';
-
+import images from '@assets/images';
 import Container from '@components/Container/styles';
+import useDebounce from '@hooks/useDebounce';
+
 import {
   ButtonStyled,
   ErrorMessageStyled,
@@ -13,7 +14,6 @@ import {
   FormStyled,
   LoadingStyled,
 } from './styles';
-import useDebounce from '@hooks/useDebounce';
 
 const SearchBar: React.FC<{ onSubmit: (values: any) => void }> = ({
   onSubmit,
@@ -73,7 +73,7 @@ const SearchBar: React.FC<{ onSubmit: (values: any) => void }> = ({
             />
             <ErrorMessageStyled name="query" component="div" />
             <ButtonStyled type="submit">
-              <img src={searchIcon} alt="search icon" />
+              <img src={images.searchIcon} alt="search icon" />
             </ButtonStyled>
             {isLoading && <LoadingStyled src={loadingGif} alt="loading" />}
           </FormStyled>

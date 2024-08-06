@@ -1,7 +1,6 @@
-import logoFooter from '@assets/img/logoFooter.svg';
-import logoFooterCompany from '@assets/img/logoFooterCompany.svg';
-
+import images from '@assets/images';
 import Container from '@components/Container/styles';
+
 import { FooterContent, FooterStyled, Logo, LogoCompany } from './styles';
 
 const Footer = () => {
@@ -10,11 +9,11 @@ const Footer = () => {
       <Container>
         <FooterContent>
           <Logo>
-            <img src={logoFooter} alt="logo footer" />
+            <img src={images.logoFooter} alt="logo footer" />
           </Logo>
 
           <LogoCompany>
-            <img src={logoFooterCompany} alt="logo footer company" />
+            <img src={images.logoFooterCompany} alt="logo footer company" />
           </LogoCompany>
         </FooterContent>
       </Container>

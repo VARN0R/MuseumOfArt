@@ -1,13 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import loadingGif from '@assets/gif/loading.gif';
-import favoritesIconCard from '@assets/img/favoritesIconCard.svg';
-
 import CardSliderProps from '@/types/cardSliderProps';
-
-import Loader from '@components/Loader/styles';
-
+import loadingGif from '@assets/gif/loading.gif';
+import images from '@assets/images';
 import {
   Artist,
   CardContentText,
@@ -15,6 +11,8 @@ import {
   Public,
   Title,
 } from '@components/CardSlider/styles';
+import Loader from '@components/Loader/styles';
+
 import { CardContent, CardStyled, Image } from './styles';
 
 const Card: React.FC<CardSliderProps> = (props) => {
@@ -44,7 +42,7 @@ const Card: React.FC<CardSliderProps> = (props) => {
           favorite={isFavorite ? true : false}
           onClick={() => onToggleFavorite(id)}
         >
-          <img src={favoritesIconCard} alt="favorites icon" />
+          <img src={images.favoritesIconCard} alt="favorites icon" />
         </FavoriteButton>
       </CardContent>
     </CardStyled>
