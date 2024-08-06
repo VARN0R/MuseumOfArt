@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import Art from '@/types/art';
+import { fetchGalleryArts } from '@services/fetchGalleryArts';
 import Card from '@components/Card';
 import Container from '@components/Container/styles';
 import Subtitle from '@components/Subtitle';
@@ -16,35 +16,16 @@ const Gallery = () => {
   const [arts, setArts] = useState<Art[]>([]);
 
   useEffect(() => {
-    const fetchArtworks = async () => {
-      try {
-        axios
-          .get('https://api.artic.edu/api/v1/artworks', {
-            params: {
-              page: 1,
-              limit: 50,
-            },
-          })
-          .then((response) => {
-            const artworks = response.data.data.map((art: any) => ({
-              id: art.id,
-              title: art.title,
-              artist: art.artist_title,
-              imageUrl: `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`,
-            }));
-            setArts(artworks);
-          });
-      } catch (error) {
-        console.error('Error fetching artworks', error);
-      }
+    const fetchData = async () => {
+      setArts(await fetchGalleryArts());
     };
 
-    fetchArtworks();
+    fetchData();
   }, []);
 
   let galleryArts = arts.slice(13, 22);
 
-  const handleSortChange = (event: any) => {
+  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortType(event.target.value);
   };
 
@@ -72,14 +53,14 @@ const Gallery = () => {
           </SortSelect>
         </SortContainer>
         <GalleryContainer>
-          {galleryArts.map((art) => (
+          {galleryArts.map(({ id, title, artist, imageUrl }) => (
             <Card
-              key={art.id}
-              id={art.id}
-              title={art.title}
-              artist={art.artist}
-              imageUrl={art.imageUrl}
-              isFavorite={favorites.includes(art.id)}
+              key={id}
+              id={id}
+              title={title}
+              artist={artist}
+              imageUrl={imageUrl}
+              isFavorite={favorites.includes(id)}
               onToggleFavorite={toggleFavorite}
             />
           ))}

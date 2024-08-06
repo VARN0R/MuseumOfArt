@@ -29,12 +29,14 @@ const Favorites: React.FC = () => {
     const fetchFavoriteArts = async () => {
       const artsPromises = favorites.map((id: number) => fetchArtId(id));
       const arts = await Promise.all(artsPromises);
-      const formattedArts = arts.map((art: any) => ({
-        id: art.id,
-        title: art.title,
-        artist: art.artist_title,
-        imageUrl: `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`,
-      }));
+      const formattedArts = arts.map(
+        ({ id, title, artist_title, image_id }) => ({
+          id: id,
+          title: title,
+          artist: artist_title,
+          imageUrl: `https://www.artic.edu/iiif/2/${image_id}/full/843,/0/default.jpg`,
+        })
+      );
       setFavoriteArts(formattedArts);
     };
 
@@ -59,13 +61,13 @@ const Favorites: React.FC = () => {
       <Subtitle {...PAGE_TEXT.favorites} />
       <Container>
         <FavoritesContainer>
-          {favoriteArts.map((art) => (
+          {favoriteArts.map(({ id, title, artist, imageUrl }) => (
             <Card
-              key={art.id}
-              id={art.id}
-              title={art.title}
-              artist={art.artist}
-              imageUrl={art.imageUrl}
+              key={id}
+              id={id}
+              title={title}
+              artist={artist}
+              imageUrl={imageUrl}
               isFavorite={true}
               onToggleFavorite={toggleFavorite}
             />

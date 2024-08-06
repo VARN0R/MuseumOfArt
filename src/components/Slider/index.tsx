@@ -55,14 +55,14 @@ const Slider: React.FC<SliderProps> = ({ query }) => {
         {query !== 'not found' ? (
           <>
             <ArtContainer>
-              {paginatedArts.map((art) => (
+              {paginatedArts.map(({ id, title, artist, imageUrl }) => (
                 <CardSlider
-                  key={art.id}
-                  id={art.id}
-                  title={art.title}
-                  artist={art.artist}
-                  imageUrl={art.imageUrl}
-                  isFavorite={favorites.includes(art.id)}
+                  key={id}
+                  id={id}
+                  title={title}
+                  artist={artist}
+                  imageUrl={imageUrl}
+                  isFavorite={favorites.includes(id)}
                   onToggleFavorite={toggleFavorite}
                 />
               ))}

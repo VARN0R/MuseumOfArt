@@ -7,10 +7,11 @@ import Header from '@components/Header';
 import SearchBar from '@components/SearchBar';
 import Slider from '@components/Slider';
 import Title from '@components/Title';
+import SearchValues from '@/types/searchValues';
 
 const Home = () => {
   const [query, setQuery] = useState<string>('');
-  const handleSearch = async (values: any) => {
+  const handleSearch = async (values: SearchValues) => {
     const response = await axios.get(
       `https://api.artic.edu/api/v1/artworks/search?q=${values.query}`
     );

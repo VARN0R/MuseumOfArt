@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -25,6 +24,7 @@ import {
   Subtitle,
   Title,
 } from './styles';
+import { fetchArtId } from '@services/fetchArtId';
 
 const Details = () => {
   const [art, setArt] = useState<ArtDetails>();
@@ -36,22 +36,21 @@ const Details = () => {
 
   useEffect(() => {
     const fetchArtDetail = async () => {
-      const response = await axios.get(
-        `https://api.artic.edu/api/v1/artworks/${id}`
-      );
-      const artDetail = response.data.data;
-      setArt({
-        id: artDetail.id,
-        title: artDetail.title,
-        artist: artDetail.artist_title,
-        imageUrl: `https://www.artic.edu/iiif/2/${artDetail.image_id}/full/843,/0/default.jpg`,
-        birthDate: artDetail.artist_begin_date,
-        deathDate: artDetail.artist_end_date,
-        artistNationalit: artDetail.artist_nationality,
-        dimensions: artDetail.dimensions,
-        creditLine: artDetail.credit_line,
-        repository: artDetail.repository,
-      });
+      if (id) {
+        const artDetail = await fetchArtId(Number(id));
+        setArt({
+          id: artDetail.id,
+          title: artDetail.title,
+          artist: artDetail.artist_title,
+          imageUrl: `https://www.artic.edu/iiif/2/${artDetail.image_id}/full/843,/0/default.jpg`,
+          birthDate: artDetail.artist_begin_date,
+          deathDate: artDetail.artist_end_date,
+          artistNationalit: artDetail.artist_nationality,
+          dimensions: artDetail.dimensions,
+          creditLine: artDetail.credit_line,
+          repository: artDetail.repository,
+        });
+      }
     };
 
     fetchArtDetail();
