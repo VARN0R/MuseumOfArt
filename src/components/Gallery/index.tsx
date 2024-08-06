@@ -5,8 +5,14 @@ import { fetchGalleryArts } from '@services/fetchGalleryArts';
 import Card from '@components/Card';
 import Container from '@components/Container/styles';
 import Subtitle from '@components/Subtitle';
-import { FILTERS, PAGE_TEXT } from '@constants/index';
-import { useFavorites } from '@helpes/favoritesContext';
+import {
+  FILTERS,
+  GALLERY_END_INDEX,
+  GALLERY_START_INDEX,
+  PAGE_TEXT,
+} from '@constants/index';
+import { useFavorites } from '@helpers/favoritesContext';
+import { sortGalleryArts } from '@helpers/sortGallery';
 
 import { GalleryContainer, SortContainer, SortSelect } from './styles';
 
@@ -23,23 +29,13 @@ const Gallery = () => {
     fetchData();
   }, []);
 
-  let galleryArts = arts.slice(13, 22);
+  let galleryArts = arts.slice(GALLERY_START_INDEX, GALLERY_END_INDEX);
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortType(event.target.value);
   };
 
-  if (sortType === 'title') {
-    galleryArts = [...galleryArts].sort((a, b) =>
-      a.title.localeCompare(b.title)
-    );
-  } else if (sortType === 'artist') {
-    galleryArts = [...galleryArts].sort((a, b) => {
-      const artistA = a.artist || '';
-      const artistB = b.artist || '';
-      return artistA.localeCompare(artistB);
-    });
-  }
+  galleryArts = sortGalleryArts(galleryArts, sortType);
 
   return (
     <div>

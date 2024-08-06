@@ -1,10 +1,11 @@
 import { Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
-import * as Yup from 'yup';
 
 import loadingGif from '@assets/gif/loading.gif';
 import images from '@assets/images';
 import Container from '@components/Container/styles';
+import { REQUEST_DELAY } from '@constants/index';
+import { validateSearchBar } from '@helpers/validationSchema';
 import useDebounce from '@hooks/useDebounce';
 
 import {
@@ -21,13 +22,8 @@ const SearchBar: React.FC<{ onSubmit: (values: any) => void }> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState('');
 
-  const validationSchema = Yup.object({
-    query: Yup.string().matches(
-      /^[a-zA-Z\s]*$/,
-      'Search query cannot contain only numbers or special characters'
-    ),
-  });
-  const debouncedQuery = useDebounce(query, 1000);
+  const validationSchema = validateSearchBar();
+  const debouncedQuery = useDebounce(query, REQUEST_DELAY);
 
   useEffect(() => {
     const fetchData = async () => {

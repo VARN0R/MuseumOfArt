@@ -10,7 +10,7 @@ import Subtitle from '@components/Subtitle';
 
 import { PAGE_TEXT } from '@constants/index';
 
-import { useFavorites } from '@helpes/favoritesContext';
+import { useFavorites } from '@helpers/favoritesContext';
 
 import { fetchArtId } from '@services/fetchArtId';
 

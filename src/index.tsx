@@ -7,7 +7,7 @@ import { myTheme } from '@styles/myTheme';
 
 import App from '@components/App';
 
-import { FavoritesProvider } from '@helpes/favoritesContext';
+import { FavoritesProvider } from '@helpers/favoritesContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

@@ -10,7 +10,7 @@ import {
   LENGTH_PAGINATION,
   PAGE_TEXT,
 } from '@constants/index';
-import { useFavorites } from '@helpes/favoritesContext';
+import { useFavorites } from '@helpers/favoritesContext';
 import { fetchPaginatedArts } from '@services/fetchPaginatedArts';
 
 import {
@@ -28,7 +28,6 @@ const Slider: React.FC<SliderProps> = ({ query }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
-    console.log(query);
     const fetchData = async () => {
       if (query === '') {
         setPaginatedArts(
@@ -38,7 +37,6 @@ const Slider: React.FC<SliderProps> = ({ query }) => {
           )
         );
       } else if (query !== 'not found') {
-        console.log(query);
         setPaginatedArts(await fetchPaginatedArts(currentPage, query));
       } else if (query === 'not found') {
         setPaginatedArts([]);
