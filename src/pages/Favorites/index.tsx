@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import Art from '@/types/art';
 import favoritesTitle from '@assets/img/favoritesTitle.svg';
 import Card from '@components/Card';
 import Container from '@components/Container/styles';
@@ -9,10 +8,7 @@ import Header from '@components/Header';
 import Subtitle from '@components/Subtitle';
 
 import { PAGE_TEXT } from '@constants/index';
-
 import { useFavorites } from '@helpers/favoritesContext';
-
-import { fetchArtId } from '@services/fetchArtId';
 
 import {
   FavoritesContainer,
@@ -23,31 +19,11 @@ import {
 
 import Loader from '@components/Loader/styles';
 import loadingGif from '@assets/gif/loading.gif';
+import useFavoriteArts from '@hooks/useFavoritesArts';
 
 const Favorites: React.FC = () => {
   const { favorites, toggleFavorite } = useFavorites();
-  const [favoriteArts, setFavoriteArts] = useState<Art[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchFavoriteArts = async () => {
-      setLoading(true);
-      const artsPromises = favorites.map((id: number) => fetchArtId(id));
-      const arts = await Promise.all(artsPromises);
-      const formattedArts = arts.map(
-        ({ id, title, artist_title, image_id }) => ({
-          id: id,
-          title: title,
-          artist: artist_title,
-          imageUrl: `https://www.artic.edu/iiif/2/${image_id}/full/843,/0/default.jpg`,
-        })
-      );
-      setFavoriteArts(formattedArts);
-      setLoading(false);
-    };
-
-    fetchFavoriteArts();
-  }, [favorites]);
+  const { favoriteArts, loading } = useFavoriteArts(favorites);
 
   return (
     <div>
