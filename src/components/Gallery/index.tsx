@@ -15,15 +15,20 @@ import { useFavorites } from '@helpers/favoritesContext';
 import { sortGalleryArts } from '@helpers/sortGallery';
 
 import { GalleryContainer, SortContainer, SortSelect } from './styles';
+import Loader from '@components/Loader/styles';
+import loadingGif from '@assets/gif/loading.gif';
 
 const Gallery = () => {
   const { favorites, toggleFavorite } = useFavorites();
   const [sortType, setSortType] = useState<string>('none');
   const [arts, setArts] = useState<Art[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       setArts(await fetchGalleryArts());
+      setLoading(false);
     };
 
     fetchData();
@@ -41,26 +46,34 @@ const Gallery = () => {
     <div>
       <Subtitle {...PAGE_TEXT.mainSecond}></Subtitle>
       <Container>
-        <SortContainer>
-          <SortSelect value={sortType} onChange={handleSortChange}>
-            <option value="none">{FILTERS[0]}</option>
-            <option value="title">{FILTERS[1]}</option>
-            <option value="artist">{FILTERS[2]}</option>
-          </SortSelect>
-        </SortContainer>
-        <GalleryContainer>
-          {galleryArts.map(({ id, title, artist, imageUrl }) => (
-            <Card
-              key={id}
-              id={id}
-              title={title}
-              artist={artist}
-              imageUrl={imageUrl}
-              isFavorite={favorites.includes(id)}
-              onToggleFavorite={toggleFavorite}
-            />
-          ))}
-        </GalleryContainer>
+        {loading ? (
+          <Loader width="100%" height="444px" loaded={!loading}>
+            <img src={loadingGif} alt="Loading..." />
+          </Loader>
+        ) : (
+          <>
+            <SortContainer>
+              <SortSelect value={sortType} onChange={handleSortChange}>
+                <option value="none">{FILTERS[0]}</option>
+                <option value="title">{FILTERS[1]}</option>
+                <option value="artist">{FILTERS[2]}</option>
+              </SortSelect>
+            </SortContainer>
+            <GalleryContainer>
+              {galleryArts.map(({ id, title, artist, imageUrl }) => (
+                <Card
+                  key={id}
+                  id={id}
+                  title={title}
+                  artist={artist}
+                  imageUrl={imageUrl}
+                  isFavorite={favorites.includes(id)}
+                  onToggleFavorite={toggleFavorite}
+                />
+              ))}
+            </GalleryContainer>
+          </>
+        )}
       </Container>
     </div>
   );

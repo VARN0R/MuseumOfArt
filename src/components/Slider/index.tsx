@@ -21,14 +21,18 @@ import {
   PaginationButton,
   PaginationWrapper,
 } from './styles';
+import Loader from '@components/Loader/styles';
+import loadingGif from '@assets/gif/loading.gif';
 
 const Slider: React.FC<SliderProps> = ({ query }) => {
   const { favorites, toggleFavorite } = useFavorites();
   const [paginatedArts, setPaginatedArts] = useState<Art[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       if (query === '') {
         setPaginatedArts(
           await fetchPaginatedArts(
@@ -41,6 +45,7 @@ const Slider: React.FC<SliderProps> = ({ query }) => {
       } else if (query === 'not found') {
         setPaginatedArts([]);
       }
+      setLoading(false);
     };
 
     fetchData();
@@ -50,7 +55,11 @@ const Slider: React.FC<SliderProps> = ({ query }) => {
     <div>
       <Subtitle {...PAGE_TEXT.main} />
       <Container>
-        {query !== 'not found' ? (
+        {loading ? (
+          <Loader width="100%" height="444px" loaded={!loading}>
+            <img src={loadingGif} alt="Loading..." />
+          </Loader>
+        ) : query !== 'not found' ? (
           <>
             <ArtContainer>
               {paginatedArts.map(({ id, title, artist, imageUrl }) => (

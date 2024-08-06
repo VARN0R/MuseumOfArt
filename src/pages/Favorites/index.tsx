@@ -21,12 +21,17 @@ import {
   Title,
 } from './styles';
 
+import Loader from '@components/Loader/styles';
+import loadingGif from '@assets/gif/loading.gif';
+
 const Favorites: React.FC = () => {
   const { favorites, toggleFavorite } = useFavorites();
   const [favoriteArts, setFavoriteArts] = useState<Art[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchFavoriteArts = async () => {
+      setLoading(true);
       const artsPromises = favorites.map((id: number) => fetchArtId(id));
       const arts = await Promise.all(artsPromises);
       const formattedArts = arts.map(
@@ -38,6 +43,7 @@ const Favorites: React.FC = () => {
         })
       );
       setFavoriteArts(formattedArts);
+      setLoading(false);
     };
 
     fetchFavoriteArts();
@@ -60,19 +66,27 @@ const Favorites: React.FC = () => {
       </Container>
       <Subtitle {...PAGE_TEXT.favorites} />
       <Container>
-        <FavoritesContainer>
-          {favoriteArts.map(({ id, title, artist, imageUrl }) => (
-            <Card
-              key={id}
-              id={id}
-              title={title}
-              artist={artist}
-              imageUrl={imageUrl}
-              isFavorite={true}
-              onToggleFavorite={toggleFavorite}
-            />
-          ))}
-        </FavoritesContainer>
+        {loading ? (
+          <Loader width="100%" height="444px" loaded={!loading}>
+            <img src={loadingGif} alt="Loading..." />
+          </Loader>
+        ) : (
+          <>
+            <FavoritesContainer>
+              {favoriteArts.map(({ id, title, artist, imageUrl }) => (
+                <Card
+                  key={id}
+                  id={id}
+                  title={title}
+                  artist={artist}
+                  imageUrl={imageUrl}
+                  isFavorite={true}
+                  onToggleFavorite={toggleFavorite}
+                />
+              ))}
+            </FavoritesContainer>
+          </>
+        )}
       </Container>
       <Footer />
     </div>
