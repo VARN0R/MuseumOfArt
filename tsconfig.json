@@ -15,14 +15,19 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
+      "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@assets/*": ["src/assets/*"],
       "@constants/*": ["src/constants/*"],
-      "@types/*": ["src/types/*"]
+      "@types/*": ["src/types/*"],
+      "@styles/*": ["src/styles/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@services/*": ["src/utils/services/*"],
+      "@helpers/*": ["src/utils/helpers/*"]
     }
   },
-  "include": ["src", "setupTests.ts"]
+  "include": ["src", "setupTests.ts", "craco.config.js", "webpack.config.js"]
 }
